@@ -1,0 +1,12 @@
+{
+  "environments": {
+    "qa": {
+      "baseUrl": "https://stage.gillette.de/de-de", 
+      "apiUrl": "https://api-qa.gillette.de"
+    },
+    "prod": {
+      "baseUrl": "https://www.gillette.de/de-de",
+      "apiUrl": "https://api.gillette.de"
+    }
+  }
+}
