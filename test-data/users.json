@@ -1,0 +1,15 @@
+{
+  "testCredentials": {
+    "default": {
+      "email": "afzal.ali@ltimindtree.com",
+      "password": "Password@21"
+    },
+    "gillette-dev": {
+      "username": "your-qa-username",
+      "password": "encrypted:9c8f6a2e1d4b5c3a7e9f0d2c5b8a3e1f:7a5d8c9e3f1b4a6d8e2c5f9a3b7d1e4c6f8a2d5b9e3c7a1f4d8b6e2c9a5f3d1",
+      "pingId": "your-ping-id",
+      "isEncrypted": true,
+      "note": "Update with actual credentials. To encrypt: node utils/encryption.js"
+    }
+  }
+}

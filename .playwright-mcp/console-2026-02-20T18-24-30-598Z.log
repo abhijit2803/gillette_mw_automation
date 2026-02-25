@@ -1,0 +1,12 @@
+[    2015ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://www.gillette.de/de-de/rasur-tipps/anleitung-bartkonturen-rasieren:0
+[    7496ms] ReferenceError: PGdataLayer is not defined
+    at <anonymous>:10:240
+    at https://www.googletagmanager.com/gtm.js?id=GTM-5KL7R2LX:916:429
+    at KR (https://www.googletagmanager.com/gtm.js?id=GTM-5KL7R2LX:918:31)
+    at Od.JR (https://www.googletagmanager.com/gtm.js?id=GTM-5KL7R2LX:915:85)
+    at Od.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-5KL7R2LX:337:187)
+    at k.apply (https://www.googletagmanager.com/gtm.js?id=GTM-5KL7R2LX:266:466)
+    at lb (https://www.googletagmanager.com/gtm.js?id=GTM-5KL7R2LX:228:209)
+    at kb (https://www.googletagmanager.com/gtm.js?id=GTM-5KL7R2LX:227:527)
+    at Od.<anonymous> (https://www.googletagmanager.com/gtm.js?id=GTM-5KL7R2LX:290:473)
+    at k.apply (https://www.googletagmanager.com/gtm.js?id=GTM-5KL7R2LX:266:466)

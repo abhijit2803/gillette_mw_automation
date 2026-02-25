@@ -1,0 +1,60 @@
+[    2975ms] Error: Minified React error #418; visit https://reactjs.org/docs/error-decoder.html?invariant=418 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at lg (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:46555)
+    at i (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:121150)
+    at oO (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:99117)
+    at https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:98984
+    at oF (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:98991)
+    at oS (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:94030)
+    at x (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:137528)
+    at MessagePort.T (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:138058)
+[    2983ms] Error: Minified React error #418; visit https://reactjs.org/docs/error-decoder.html?invariant=418 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at lg (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:46555)
+    at i (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:121150)
+    at oO (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:99117)
+    at https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:98984
+    at oF (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:98991)
+    at oS (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:94030)
+    at x (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:137528)
+    at MessagePort.T (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:138058)
+[    2984ms] Error: Minified React error #418; visit https://reactjs.org/docs/error-decoder.html?invariant=418 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at lg (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:46555)
+    at i (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:121150)
+    at oO (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:99117)
+    at https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:98984
+    at oF (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:98991)
+    at oS (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:94030)
+    at x (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:137528)
+    at MessagePort.T (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:138058)
+[    2986ms] Error: Minified React error #418; visit https://reactjs.org/docs/error-decoder.html?invariant=418 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at lg (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:46555)
+    at i (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:121150)
+    at oO (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:99117)
+    at https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:98984
+    at oF (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:98991)
+    at oS (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:94030)
+    at x (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:137528)
+    at MessagePort.T (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:138058)
+[    2988ms] Error: Minified React error #418; visit https://reactjs.org/docs/error-decoder.html?invariant=418 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at lg (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:46555)
+    at i (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:121150)
+    at oO (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:99117)
+    at https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:98984
+    at oF (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:98991)
+    at oS (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:94030)
+    at x (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:137528)
+    at MessagePort.T (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:138058)
+[    2990ms] Error: Minified React error #423; visit https://reactjs.org/docs/error-decoder.html?invariant=423 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at i (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:120819)
+    at oO (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:99117)
+    at https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:98984
+    at oF (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:98991)
+    at ox (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:95743)
+    at oS (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:94298)
+    at x (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:137528)
+    at MessagePort.T (https://www.gillette.de/_next/static/chunks/framework-945b357d4a851f4b.js:1:138058)
+[   65592ms] [WARNING] BV Loader should only be called once per page. @ https://apps.bazaarvoice.com/bv.js:17
+[   66833ms] [WARNING] [Meta Pixel] - Invalid PixelID: null. @ https://connect.facebook.net/en_US/fbevents.js:173
+[   67001ms] [ERROR] The Content-Security-Policy directive 'default-src' contains the keyword 'none' alongside with other source expressions. The keyword 'none' must be the only source expression in the directive value, otherwise it is ignored. @ https://pandg.tapad.com/tag?referrer_url=&page_url=https%3A%2F%2Fwww.gillette.de%2Fde-de%2Fprodukte%2Fgesichtspflege%2Fseries-beruhigendes-rasiergel&owner=P%26G&bp_id=firstp&ch=%7B%22architecture%22%3A%22x86%22%2C%22bitness%22%3A%2264%22%2C%22brands%22%3A%5B%7B%22brand%22%3A%22Not%3AA-Brand%22%2C%22version%22%3A%2299%22%7D%2C%7B%22brand%22%3A%22Google%20Chrome%22%2C%22version%22%3A%22145%22%7D%2C%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22145%22%7D%5D%2C%22fullVersionList%22%3A%5B%7B%22brand%22%3A%22Not%3AA-Brand%22%2C%22version%22%3A%2299.0.0.0%22%7D%2C%7B%22brand%22%3A%22Google%20Chrome%22%2C%22version%22%3A%22145.0.7632.110%22%7D%2C%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22145.0.7632.110%22%7D%5D%2C%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22Windows%22%2C%22platformVersion%22%3A%2219.0.0%22%7D&initiator=js&data=%7B%22event%22%3A%22page_view%22%2C%22gaid%22%3A%22(not%20set)%22%2C%22WMHMDA%22%3A0%2C%22mediaID%22%3A%22%22%2C%22brand%22%3A%22gillette%22%7D:0
+[   68843ms] [WARNING] failed to load lytics due to invalid configuration @ https://c.lytics.io/api/tag/empty/latest.min.js:0
+[   68846ms] Error: Load error!
+    at HTMLScriptElement.<anonymous> (<anonymous>:2:350)

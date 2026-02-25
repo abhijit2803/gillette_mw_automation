@@ -1,0 +1,15 @@
+{
+  "description": "Body & Intimate Product URLs for PDP Sanity Testing - Germany Website",
+  "lastUpdated": "2026-02-01",
+  "products": [
+    {
+      "name": "Gillette BODY & INTIMATE Trimmer für die Intimrasur",
+      "url": "https://www.gillette.de/de-de/intimrasur/intimate-trimmer",
+      "category": "Body & Intimate"
+    }
+  ],
+  "notes": [
+    "Add more product URLs from Excel file as needed",
+    "URLs can be loaded dynamically in the test using dataProvider utility"
+  ]
+}

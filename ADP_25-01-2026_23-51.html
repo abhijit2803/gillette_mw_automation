@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADP Test Execution Summary - 25-01-2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header .meta {
+            font-size: 1.1em;
+            opacity: 0.95;
+            margin-top: 15px;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .summary-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .summary-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+        
+        .summary-card .label {
+            font-size: 0.9em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .success {
+            color: #28a745;
+        }
+        
+        .section {
+            margin: 40px 0;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .test-result {
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            background: #f8f9fa;
+            border-left: 5px solid #28a745;
+        }
+        
+        .test-result h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .test-result .status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin: 10px 0;
+        }
+        
+        .status.passed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .articles-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .article-item {
+            padding: 12px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .article-item:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+        
+        .article-item .number {
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .article-item .check {
+            color: #28a745;
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%);
+            border-left: 5px solid #ff9900;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .highlight-box h3 {
+            color: #ff9900;
+            margin-bottom: 15px;
+        }
+        
+        .highlight-box ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .highlight-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .highlight-box li:before {
+            content: "🎯";
+            position: absolute;
+            left: 0;
+        }
+        
+        .conclusion {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .conclusion h2 {
+            color: #155724;
+            border: none;
+            margin-bottom: 15px;
+        }
+        
+        .conclusion p {
+            font-size: 1.2em;
+            color: #155724;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin: 5px;
+        }
+        
+        .badge-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .performance-bar {
+            background: #e0e0e0;
+            height: 25px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .performance-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Article Detail Page Test Execution Summary</h1>
+            <div class="meta">
+                <strong>Execution Date:</strong> 25-01-2026 at 23:51 |
+                <strong>Environment:</strong> Gillette Stage
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Executive Summary -->
+            <div class="section">
+                <h2>📊 Executive Summary</h2>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="label">Total Tests</div>
+                        <div class="value">3</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="label">Tests Passed</div>
+                        <div class="value success">✅ 3</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="label">Pass Rate</div>
+                        <div class="value">100%</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="label">Duration</div>
+                        <div class="value">3.1m</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="label">Articles Verified</div>
+                        <div class="value">43</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="label">Browser</div>
+                        <div class="value" style="font-size: 1.5em;">🌐</div>
+                        <div style="font-size: 0.9em; margin-top: 5px;">Chromium</div>
+                    </div>
+                </div>
+                
+                <div class="performance-bar">
+                    <div class="performance-fill" style="width: 100%;">100% Success Rate</div>
+                </div>
+            </div>
+            
+            <!-- Test Results -->
+            <div class="section">
+                <h2>✅ Test Results</h2>
+                
+                <div class="test-result">
+                    <h3>TC1: Verify Page Loads with Title and Description</h3>
+                    <span class="status passed">✅ PASSED</span>
+                    <p><strong>Duration:</strong> ~8 seconds</p>
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li>✅ Page URL verified: Contains /perfect-shave</li>
+                        <li>✅ Page Title: "Gillette's Complete Grooming Guide Shaving Tips, Beard Styles & Manscaping"</li>
+                        <li>✅ Page loaded successfully</li>
+                    </ul>
+                </div>
+                
+                <div class="test-result">
+                    <h3>TC2: Verify Article Cards are Displayed</h3>
+                    <span class="status passed">✅ PASSED</span>
+                    <p><strong>Duration:</strong> ~7 seconds</p>
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li>✅ Total Article Cards Found: <strong>43</strong></li>
+                        <li>✅ All cards rendered correctly</li>
+                    </ul>
+                </div>
+                
+                <div class="test-result">
+                    <h3>TC3: Verify Article Cards Link to Correct Detail Pages</h3>
+                    <span class="status passed">✅ PASSED</span>
+                    <p><strong>Duration:</strong> ~175 seconds (2.9 minutes)</p>
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li>✅ <strong>43 articles verified successfully</strong></li>
+                        <li>✅ All article titles match between listing and detail page</li>
+                        <li>✅ All navigation links working correctly</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Verified Articles -->
+            <div class="section">
+                <h2>📚 Verified Articles (All 43)</h2>
+                <div class="articles-list">
+                    <div class="article-item">
+                        <div class="number">1</div>
+                        <span class="check">✅</span>
+                        <span>How to Shave Your Pubic Hair - A Step-by-Step Guide</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">2</div>
+                        <span class="check">✅</span>
+                        <span>Manscaping Tips for Shaving your armpits with ease and comfort</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">3</div>
+                        <span class="check">✅</span>
+                        <span>How to Cut Trim and Shave your Head at Home for a Clean Look</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">4</div>
+                        <span class="check">✅</span>
+                        <span>Manscaping Tips for Smooth and Confident Body Grooming</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">5</div>
+                        <span class="check">✅</span>
+                        <span>Manscaping tips for shaving your back without irritation</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">6</div>
+                        <span class="check">✅</span>
+                        <span>How to Grow and Shape a Goatee Without a Mustache</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">7</div>
+                        <span class="check">✅</span>
+                        <span>The 3-Day Stubble Beard Style and Grooming Tips</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">8</div>
+                        <span class="check">✅</span>
+                        <span>Goatee Grooming - The Petite Goatee Beard for Everyday Style</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">9</div>
+                        <span class="check">✅</span>
+                        <span>Top 15 Beard Styles for Men - Find Your Perfect Look</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">10</div>
+                        <span class="check">✅</span>
+                        <span>Mustache Grooming – Top Styles for Every Look</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">11</div>
+                        <span class="check">✅</span>
+                        <span>Beard Grooming – The Van Dyke Beard for a Classic Defined Look</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">12</div>
+                        <span class="check">✅</span>
+                        <span>How to Trim and Style a Pencil Thin Mustache</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">13</div>
+                        <span class="check">✅</span>
+                        <span>The Original Mustache Grooming Tips</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">14</div>
+                        <span class="check">✅</span>
+                        <span>Facial Hair Grooming – The Mutton Chops Beard Style</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">15</div>
+                        <span class="check">✅</span>
+                        <span>How to Shape and Maintain the Horseshoe Mustache</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">16</div>
+                        <span class="check">✅</span>
+                        <span>How to Style the Gunslinger Beard and Mustache</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">17</div>
+                        <span class="check">✅</span>
+                        <span>How to shave and style a circle beard goatee for a clean look</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">18</div>
+                        <span class="check">✅</span>
+                        <span>Beard Grooming – The Chin Strip Goatee</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">19</div>
+                        <span class="check">✅</span>
+                        <span>The Chin Strap Beard Style and Grooming Tips</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">20</div>
+                        <span class="check">✅</span>
+                        <span>How to Shave and Trim a Chevron Mustache</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">21</div>
+                        <span class="check">✅</span>
+                        <span>Beard Grooming – The Balbo Beard Style</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">22</div>
+                        <span class="check">✅</span>
+                        <span>Beard Grooming – The Anchor Beard for a Defined Look</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">23</div>
+                        <span class="check">✅</span>
+                        <span>How to Trim and Style a Short Boxed Beard for a Clean Look</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">24</div>
+                        <span class="check">✅</span>
+                        <span>Shaving a Goatee Made Easy - Everything You Need for a Sharp Style</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">25</div>
+                        <span class="check">✅</span>
+                        <span>Shape Your Beard Like a Pro: Trimming & Edging Tips</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">26</div>
+                        <span class="check">✅</span>
+                        <span>Wet Shaving or Dry Shaving: How to Choose the Right Method</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">27</div>
+                        <span class="check">✅</span>
+                        <span>Beard Grooming – Techniques for Shaving a Tough Beard</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">28</div>
+                        <span class="check">✅</span>
+                        <span>Gillette and the Evolution of the Safety Razor</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">29</div>
+                        <span class="check">✅</span>
+                        <span>How to Use a Straight Razor for a Comfortable Shave at Home</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">30</div>
+                        <span class="check">✅</span>
+                        <span>Face Shaving Tips for Shaving Sensitive Skin</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">31</div>
+                        <span class="check">✅</span>
+                        <span>How to Prevent Razor Bumps and Ingrown Hair</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">32</div>
+                        <span class="check">✅</span>
+                        <span>Beard Grooming - Tips to Trim and Edge Your Beard</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">33</div>
+                        <span class="check">✅</span>
+                        <span>How to Shave Your Face Properly: Complete Guide</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">34</div>
+                        <span class="check">✅</span>
+                        <span>Shaving Tips – How to Shape Your Beard Line at Home</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">35</div>
+                        <span class="check">✅</span>
+                        <span>How to Grow and Maintain a Beard: From First Growth</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">36</div>
+                        <span class="check">✅</span>
+                        <span>Shaving Tips – Preventing and Treating Razor Burn</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">37</div>
+                        <span class="check">✅</span>
+                        <span>Shaving Routine – Start with Exfoliation</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">38</div>
+                        <span class="check">✅</span>
+                        <span>How to Shave Dry Skin Without Irritation</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">39</div>
+                        <span class="check">✅</span>
+                        <span>Shaving Tips – Shaving Against the Grain</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">40</div>
+                        <span class="check">✅</span>
+                        <span>Face Shaving Tips – Shaving with Acne Prone Skin</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">41</div>
+                        <span class="check">✅</span>
+                        <span>Your Beard Growth Journey: What to Expect</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">42</div>
+                        <span class="check">✅</span>
+                        <span>Heated Razor: Experience a New Standard in Comfort</span>
+                    </div>
+                    <div class="article-item">
+                        <div class="number">43</div>
+                        <span class="check">✅</span>
+                        <span>Your Guide to Finding the Right Tools for a Smooth Shave</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Test Coverage -->
+            <div class="section">
+                <h2>🔍 Test Coverage</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Area</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Page Load & Navigation</td>
+                            <td><span class="badge badge-success">✅ COVERED</span></td>
+                            <td>URL verification, page load validation</td>
+                        </tr>
+                        <tr>
+                            <td>Page Title Verification</td>
+                            <td><span class="badge badge-success">✅ COVERED</span></td>
+                            <td>Title presence and content validated</td>
+                        </tr>
+                        <tr>
+                            <td>Article Cards Display</td>
+                            <td><span class="badge badge-success">✅ COVERED</span></td>
+                            <td>43 article cards rendered correctly</td>
+                        </tr>
+                        <tr>
+                            <td>Article Navigation</td>
+                            <td><span class="badge badge-success">✅ COVERED</span></td>
+                            <td>All 43 article links tested</td>
+                        </tr>
+                        <tr>
+                            <td>Data Integrity</td>
+                            <td><span class="badge badge-success">✅ COVERED</span></td>
+                            <td>Title consistency across pages</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Key Highlights -->
+            <div class="section">
+                <div class="highlight-box">
+                    <h3>✨ Key Highlights</h3>
+                    <ul>
+                        <li><strong>100% Success Rate</strong> - All 3 test cases passed without any failures</li>
+                        <li><strong>Complete Coverage</strong> - All 43 articles verified for navigation and title consistency</li>
+                        <li><strong>Efficient Execution</strong> - Completed in just 3.1 minutes despite verifying 43 articles</li>
+                        <li><strong>Zero Defects</strong> - No broken links, no title mismatches, no navigation issues</li>
+                        <li><strong>Maximized Browser</strong> - Tests executed with full browser window for better visibility</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Performance Metrics -->
+            <div class="section">
+                <h2>📈 Performance Metrics</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Operation</th>
+                            <th>Average Time</th>
+                            <th>Total Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Page Load</td>
+                            <td>~2 seconds</td>
+                            <td>3 times</td>
+                        </tr>
+                        <tr>
+                            <td>Article Navigation</td>
+                            <td>~4 seconds</td>
+                            <td>43 articles</td>
+                        </tr>
+                        <tr>
+                            <td>Article Verification</td>
+                            <td>~4 seconds</td>
+                            <td>43 articles</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total Test Duration</strong></td>
+                            <td><strong>3.1 minutes</strong></td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Test Environment -->
+            <div class="section">
+                <h2>🌐 Test Environment</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Configuration</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Base URL</td>
+                            <td>https://stage.gillette.eu</td>
+                        </tr>
+                        <tr>
+                            <td>Test Page</td>
+                            <td>/en-eu/perfect-shave</td>
+                        </tr>
+                        <tr>
+                            <td>Browser</td>
+                            <td>Chromium (Maximized Window)</td>
+                        </tr>
+                        <tr>
+                            <td>Test Framework</td>
+                            <td>Playwright Test</td>
+                        </tr>
+                        <tr>
+                            <td>Pattern</td>
+                            <td>Page Object Model</td>
+                        </tr>
+                        <tr>
+                            <td>Execution Mode</td>
+                            <td>Headed (Browser Visible)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Conclusion -->
+            <div class="conclusion">
+                <h2>🎉 Conclusion</h2>
+                <p>The Article Listing Page (ALP) test execution was <strong>100% successful</strong>.</p>
+                <p>All functionality including page load, article display, and navigation to individual article detail pages is working as expected.</p>
+                <p style="margin-top: 15px; font-size: 1.3em;">
+                    <strong>Recommendation: ✅ Ready for Production</strong>
+                </p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Test Suite File:</strong> tests/allArticlesALP.spec.js</p>
+            <p><strong>Framework:</strong> Playwright with Page Object Model</p>
+            <p><strong>Generated:</strong> 25-01-2026 at 23:51</p>
+            <p style="margin-top: 10px; font-style: italic;">This report was automatically generated after test execution completion.</p>
+        </div>
+    </div>
+</body>
+</html>

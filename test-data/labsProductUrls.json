@@ -1,0 +1,25 @@
+{
+  "description": "Gillette Labs Product URLs for PDP Sanity Testing - Germany Website",
+  "lastUpdated": "2026-02-01",
+  "environment": "production",
+  "baseUrl": "https://www.gillette.de",
+  "products": [
+    {
+      "id": 1,
+      "name": "Gillette Labs Rasierer mit Reinigungs-Element",
+      "url": "https://www.gillette.de/de-de/produkte/gillette-labs/rasierer-mit-reinigungs-element",
+      "category": "Labs Rasierer"
+    },
+    {
+      "id": 2,
+      "name": "Gillette Labs Rasierklingen",
+      "url": "https://www.gillette.de/de-de/produkte/gillette-labs/rasierklingen",
+      "category": "Labs Klingen"
+    }
+  ],
+  "testConfig": {
+    "buyNowPopupMessage": "Online-Händler",
+    "productDetailsHeading": "Produktdetails",
+    "relatedProductsCount": 3
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "description": "Gels & Foams Product URLs for PDP Sanity Testing - Germany Website",
+  "lastUpdated": "2026-01-31",
+  "environment": "production",
+  "baseUrl": "https://www.gillette.de",
+  "products": [
+    {
+      "id": 1,
+      "name": "Gillette Series Beruhigendes Rasiergel",
+      "url": "https://www.gillette.de/de-de/produkte/rasiergel-und-rasierschaum/gillette-series-beruhigendes-rasiergel",
+      "category": "Rasiergel"
+    },
+    {
+      "id": 2,
+      "name": "Gillette Series Empfindliche Rasiergel",
+      "url": "https://www.gillette.de/de-de/produkte/rasiergel-und-rasierschaum/gillette-series-empfindliche-rasiergel",
+      "category": "Rasiergel"
+    },
+    {
+      "id": 3,
+      "name": "Gillette Classic Rasierschaum Sensitive",
+      "url": "https://www.gillette.de/de-de/produkte/rasiergel-und-rasierschaum/gillette-classic-rasierschaum-sensitive",
+      "category": "Rasierschaum"
+    }
+  ],
+  "testConfig": {
+    "facebookExpectedMessage": "https://www.gillette.de/",
+    "buyNowPopupMessage": "Online-Händler",
+    "reviewButtonTitle": "BEWERTUNG SCHREIBEN",
+    "relatedProductsCount": 3,
+    "relatedArticlesCount": 3
+  },
+  "notes": [
+    "Add more product URLs to the 'products' array as needed",
+    "The test will iterate through all URLs in the array",
+    "This file replaces the Excel file used in the original code",
+    "Update 'testConfig' values based on the German website's actual text"
+  ]
+}

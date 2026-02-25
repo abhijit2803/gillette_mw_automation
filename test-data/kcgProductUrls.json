@@ -1,0 +1,33 @@
+{
+  "description": "King C. Gillette Product URLs for PDP Sanity Testing - Germany Website",
+  "lastUpdated": "2026-02-01",
+  "environment": "production",
+  "baseUrl": "https://www.gillette.de",
+  "products": [
+    {
+      "id": 1,
+      "name": "King C. Gillette Bartschneider",
+      "url": "https://www.gillette.de/de-de/produkte/barttrimmer/king-c-gillette-barttrimmer-pro",
+      "category": "Bartschneider"
+    },
+    {
+      "id": 2,
+      "name": "King C. Gillette Rasierer",
+      "url": "https://www.gillette.de/de-de/king-c-gillette/rasierer",
+      "category": "Rasierer"
+    },
+    {
+      "id": 3,
+      "name": "King C. Gillette Bartöl",
+      "url": "https://www.gillette.de/de-de/king-c-gillette/bartoel",
+      "category": "Bartpflege"
+    }
+  ],
+  "testConfig": {
+    "facebookExpectedMessage": "https://www.gillette.de/",
+    "buyNowPopupMessage": "Online-Händler",
+    "reviewButtonTitle": "BEWERTUNG SCHREIBEN",
+    "relatedProductsCount": 3,
+    "relatedArticlesCount": 3
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "playwright",
+  "version": "1.0.0",
+  "description": "E-commerce automation testing suite using Playwright and Page Object Model",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:alp": "playwright test tests/allArticlesALP.spec.js",
+    "test:alp:headed": "playwright test tests/allArticlesALP.spec.js --headed",
+    "test:alp:debug": "playwright test tests/allArticlesALP.spec.js --debug",
+    "test:alp:ui": "playwright test tests/allArticlesALP.spec.js --ui",
+    "test:sanity": "playwright test tests/sanity.spec.js",
+    "test:sanity:headed": "playwright test tests/sanity.spec.js --headed",
+    "test:dev": "playwright test --config=configs/dev.config.js",
+    "test:qa": "playwright test --config=configs/qa.config.js",
+    "test:prod": "playwright test --config=configs/prod.config.js",
+    "test:sanity:dev": "playwright test tests/sanity.spec.js --config=configs/dev.config.js",
+    "test:sanity:qa": "playwright test tests/sanity.spec.js --config=configs/qa.config.js",
+    "test:sanity:prod": "playwright test tests/sanity.spec.js --config=configs/prod.config.js",
+    "sanity": "node scripts/run-sanity.js",
+    "report": "playwright show-report"
+  },
+  "keywords": [
+    "playwright",
+    "testing",
+    "automation",
+    "pom",
+    "braun"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^24.10.1"
+  }
+}
