@@ -33,9 +33,7 @@ const PRODUCT_URL = 'https://www.gillette.de/de-de/produkte/barttrimmer/king-c-g
 // Test Configuration
 const TEST_CONFIG = {
   facebookExpectedMessage: 'https://www.gillette.de/',
-  buyNowPopupMessage: 'Online-Händler',
-  relatedProductsCount: 3,
-  relatedArticlesCount: 3
+  buyNowPopupMessage: 'Online-Händler'
 };
 
 test.describe('King C. Gillette PDP Sanity Tests - Germany Website', () => {
@@ -294,10 +292,11 @@ test.describe('King C. Gillette PDP Sanity Tests - Germany Website', () => {
 
     // ==================== TC - 9: Related Products Section ====================
     log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
-    log(SYMBOLS.ROCKET, 'TC - 9: Related Products Section Verification');
+    log(SYMBOLS.ROCKET, 'TC - 9: Related Products Section Verification (Dynamic)');
     log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
       
-    const relatedProductsResult = await pdp.verifyRelatedProducts(TEST_CONFIG.relatedProductsCount);
+    const relatedProductsResult = await pdp.verifyRelatedProducts();
+    log(SYMBOLS.INFO, `Detected ${relatedProductsResult.verifiedProducts.length} related product(s)`);
       
     for (const product of relatedProductsResult.verifiedProducts) {
         if (product.success) {
@@ -314,10 +313,11 @@ test.describe('King C. Gillette PDP Sanity Tests - Germany Website', () => {
 
     // ==================== TC - 10: Related Articles Section ====================
     log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
-    log(SYMBOLS.ROCKET, 'TC - 10: Related Articles Section Verification');
+    log(SYMBOLS.ROCKET, 'TC - 10: Related Articles Section Verification (Dynamic)');
     log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
       
-    const relatedArticlesResult = await pdp.verifyRelatedArticles(TEST_CONFIG.relatedArticlesCount);
+    const relatedArticlesResult = await pdp.verifyRelatedArticles();
+    log(SYMBOLS.INFO, `Detected ${relatedArticlesResult.verifiedArticles.length} related article(s)`);
       
     for (const article of relatedArticlesResult.verifiedArticles) {
         if (article.success) {

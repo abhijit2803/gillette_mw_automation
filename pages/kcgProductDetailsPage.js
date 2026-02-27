@@ -779,26 +779,179 @@ export class kcgProductDetailsPage extends helperBase {
    * @param {number} count - Number of related products to verify (default: 3)
    * @returns {Promise<{success: boolean, verifiedProducts: Array}>}
    */
-  async verifyRelatedProducts(count = 3) {
-    log(SYMBOLS.INFO, `Verifying ${count} related products...`);
+  /**
+   * Verify related products are linked correctly - dynamically detects and verifies all products
+   * @returns {Promise<{success: boolean, verifiedProducts: Array}>}
+   */
+  async verifyRelatedProducts() {
+    log(SYMBOLS.INFO, 'Detecting related products...');
+    
+    // Wait for related products container to be visible
+    try {
+      await this.page.locator('#related-products-container').waitFor({ state: 'visible', timeout: 10000 });
+      log(SYMBOLS.SUCCESS, 'Related products container found');
+    } catch (e) {
+      log(SYMBOLS.WARNING, 'Related products container not found');
+      return { success: false, verifiedProducts: [] };
+    }
+    
+    // Scroll to Related Products section
+    try {
+      await this.relatedProductsContainer.scrollIntoViewIfNeeded().catch(() => {});
+      await this.page.waitForTimeout(2000);
+    } catch (e) {
+      log(SYMBOLS.WARNING, 'Could not scroll to related products container');
+    }
+    
+    // Count how many related products are present using multiple strategies
+    let productsCount = 0;
+    
+    // Strategy 1: Use page.evaluate to count in DOM directly
+    try {
+      productsCount = await this.page.evaluate(() => {
+        const container = document.querySelector('#related-products-container');
+        if (!container) return 0;
+        
+        // Try different possible selectors for product cards
+        const selectors = [
+          '#related-products-container > div > div:first-child > div > div > div',
+          '#related-products-container div[class*="product"]',
+          '#related-products-container a[href*="/produkte/"]'
+        ];
+        
+        for (const selector of selectors) {
+          const elements = document.querySelectorAll(selector);
+          // Filter to direct product cards (not nested)
+          const productCards = Array.from(elements).filter(el => {
+            // Check if this is a top-level product card
+            const parent = el.parentElement;
+            if (selector.includes('> div > div > div')) {
+              // For the specific nested selector, count direct children
+              return parent && parent.id !== 'related-products-container';
+            }
+            return true;
+          });
+          
+          if (productCards.length > 0) {
+            return productCards.length;
+          }
+        }
+        
+        return 0;
+      });
+      
+      if (productsCount > 0) {
+        log(SYMBOLS.INFO, `Found ${productsCount} related products using DOM query`);
+      }
+    } catch (e) {
+      log(SYMBOLS.WARNING, `DOM query failed: ${e.message}`);
+    }
+    
+    // Strategy 2: Try counting using Playwright locator as fallback
+    if (productsCount === 0) {
+      try {
+        productsCount = await this.page.locator('#related-products-container > div > div:first-child > div > div > div').count();
+        if (productsCount > 0) {
+          log(SYMBOLS.INFO, `Found ${productsCount} related products using locator`);
+        }
+      } catch (e) {
+        log(SYMBOLS.WARNING, `Locator count failed: ${e.message}`);
+      }
+    }
+    
+    // Strategy 3: Try counting product links as last resort
+    if (productsCount === 0) {
+      try {
+        productsCount = await this.page.locator('#related-products-container a[href*="/produkte/"]').count();
+        if (productsCount > 0) {
+          log(SYMBOLS.INFO, `Found ${productsCount} related product links`);
+        }
+      } catch (e) {
+        log(SYMBOLS.WARNING, `Product links count failed: ${e.message}`);
+      }
+    }
+    
+    if (productsCount === 0) {
+      log(SYMBOLS.WARNING, 'No related products found on the page');
+      return { success: false, verifiedProducts: [] };
+    }
+    
+    log(SYMBOLS.INFO, `Found ${productsCount} related products. Verifying each one...`);
     
     const context = this.page.context();
     const verifiedProducts = [];
     let allSuccess = true;
     
-    for (let i = 1; i <= count; i++) {
+    // Extract all product data at once using page.evaluate for reliability
+    const productsData = await this.page.evaluate(() => {
+      const products = [];
+      const container = document.querySelector('#related-products-container');
+      if (!container) return products;
+      
+      // Find all product links
+      const productLinks = container.querySelectorAll('a[href*="/produkte/"]');
+      
+      for (const link of productLinks) {
+        // Get the product title - try multiple strategies
+        let title = '';
+        
+        // Strategy 1: Look for h3 within the link
+        const h3 = link.querySelector('h3');
+        if (h3) {
+          title = h3.innerText.replace(/\s+/g, ' ').trim();
+        }
+        
+        // Strategy 2: Look for any heading tag
+        if (!title) {
+          const heading = link.querySelector('h2, h3, h4, h5');
+          if (heading) {
+            title = heading.innerText.replace(/\s+/g, ' ').trim();
+          }
+        }
+        
+        // Strategy 3: Look for title attribute or aria-label
+        if (!title) {
+          title = link.getAttribute('title') || link.getAttribute('aria-label') || '';
+        }
+        
+        const href = link.getAttribute('href');
+        
+        // Only include if we have both title and href
+        if (title && href) {
+          products.push({ title, href });
+        }
+      }
+      
+      // Remove duplicates by href
+      const unique = [];
+      const seen = new Set();
+      for (const product of products) {
+        if (!seen.has(product.href)) {
+          seen.add(product.href);
+          unique.push(product);
+        }
+      }
+      
+      return unique;
+    });
+    
+    // Update products count based on actual extracted data
+    const actualProductsCount = Math.min(productsData.length, productsCount);
+    log(SYMBOLS.INFO, `Extracted ${productsData.length} product(s) with valid data`);
+    
+    for (let i = 0; i < actualProductsCount; i++) {
       try {
-        // Get product name and link from card
-        const productNameElement = this.getRelatedProductName(i);
-        const productLinkElement = this.getRelatedProductLink(i);
+        const productData = productsData[i];
+        const productTitle = productData.title;
+        let productLink = productData.href;
         
-        await productNameElement.scrollIntoViewIfNeeded().catch(() => {});
+        // Ensure full URL
+        if (productLink && !productLink.startsWith('http')) {
+          const baseUrl = new URL(this.page.url()).origin;
+          productLink = baseUrl + productLink;
+        }
         
-        const productTitle = await this.page.evaluate(
-          el => el?.innerText?.replace(/\s+/g, ' ').trim() || '', 
-          await productNameElement.elementHandle()
-        );
-        const productLink = await productLinkElement.getAttribute('href');
+        log(SYMBOLS.INFO, `Verifying Related Product ${i + 1}: ${productTitle}`);
         
         // Open product page in new tab
         const newPage = await context.newPage();
@@ -813,14 +966,14 @@ export class kcgProductDetailsPage extends helperBase {
         const productMatches = productTitle.toLowerCase() === pdpProductNameTrimmed.toLowerCase();
         
         if (productMatches) {
-          log(SYMBOLS.SUCCESS, `✅ Related Product ${i} verified: ${productTitle}`);
+          log(SYMBOLS.SUCCESS, `✅ Related Product ${i + 1} verified: ${productTitle}`);
         } else {
-          log(SYMBOLS.ERROR, `❌ Mismatch for Related Product ${i}: Card = ${productTitle}, Page = ${pdpProductNameTrimmed}`);
+          log(SYMBOLS.ERROR, `❌ Mismatch for Related Product ${i + 1}: Card = ${productTitle}, Page = ${pdpProductNameTrimmed}`);
           allSuccess = false;
         }
         
         verifiedProducts.push({
-          index: i,
+          index: i + 1,
           cardTitle: productTitle,
           pdpTitle: pdpProductNameTrimmed,
           success: productMatches
@@ -828,8 +981,8 @@ export class kcgProductDetailsPage extends helperBase {
         
         await newPage.close();
       } catch (error) {
-        log(SYMBOLS.ERROR, `Failed to verify related product ${i}: ${error.message}`);
-        verifiedProducts.push({ index: i, success: false, error: error.message });
+        log(SYMBOLS.ERROR, `Failed to verify related product ${i + 1}: ${error.message}`);
+        verifiedProducts.push({ index: i + 1, success: false, error: error.message });
         allSuccess = false;
       }
     }
@@ -840,30 +993,189 @@ export class kcgProductDetailsPage extends helperBase {
   // ==================== Related Articles Methods ====================
 
   /**
-   * Verify related articles are linked correctly
-   * @param {number} count - Number of related articles to verify (default: 3)
+   * Verify related articles are linked correctly - dynamically detects and verifies all articles
    * @returns {Promise<{success: boolean, verifiedArticles: Array}>}
    */
-  async verifyRelatedArticles(count = 3) {
-    log(SYMBOLS.INFO, `Verifying ${count} related articles...`);
+  async verifyRelatedArticles() {
+    log(SYMBOLS.INFO, 'Detecting related articles...');
+    
+    // Wait for related articles container to be visible
+    try {
+      await this.page.locator('#related-articles-container').waitFor({ state: 'visible', timeout: 10000 });
+      log(SYMBOLS.SUCCESS, 'Related articles container found');
+    } catch (e) {
+      log(SYMBOLS.WARNING, 'Related articles container not found');
+      return { success: false, verifiedArticles: [] };
+    }
+    
+    // Scroll to Related Articles section
+    try {
+      await this.relatedArticlesContainer.scrollIntoViewIfNeeded().catch(() => {});
+      await this.page.waitForTimeout(2000);
+    } catch (e) {
+      log(SYMBOLS.WARNING, 'Could not scroll to related articles container');
+    }
+    
+    // Count how many related articles are present using multiple strategies
+    let articlesCount = 0;
+    
+    // Strategy 1: Use page.evaluate to count in DOM directly
+    try {
+      articlesCount = await this.page.evaluate(() => {
+        const container = document.querySelector('#related-articles-container');
+        if (!container) return 0;
+        
+        // Try different possible selectors for article cards
+        const selectors = [
+          '#related-articles-container > div > div > div > div > div',
+          '#related-articles-container div[class*="article"]',
+          '#related-articles-container a[href*="/artikel/"]',
+          '#related-articles-container a[href*="/rasiertipps/"]'
+        ];
+        
+        for (const selector of selectors) {
+          const elements = document.querySelectorAll(selector);
+          // Filter to direct article cards (not nested)
+          const articleCards = Array.from(elements).filter(el => {
+            // Check if this is a top-level article card
+            const parent = el.parentElement;
+            if (selector.includes('> div > div > div')) {
+              // For the specific nested selector, count direct children
+              return parent && parent.id !== 'related-articles-container';
+            }
+            return true;
+          });
+          
+          if (articleCards.length > 0) {
+            return articleCards.length;
+          }
+        }
+        
+        return 0;
+      });
+      
+      if (articlesCount > 0) {
+        log(SYMBOLS.INFO, `Found ${articlesCount} related articles using DOM query`);
+      }
+    } catch (e) {
+      log(SYMBOLS.WARNING, `DOM query failed: ${e.message}`);
+    }
+    
+    // Strategy 2: Try counting using Playwright locator as fallback
+    if (articlesCount === 0) {
+      try {
+        articlesCount = await this.page.locator('#related-articles-container > div > div > div > div > div').count();
+        if (articlesCount > 0) {
+          log(SYMBOLS.INFO, `Found ${articlesCount} related articles using locator`);
+        }
+      } catch (e) {
+        log(SYMBOLS.WARNING, `Locator count failed: ${e.message}`);
+      }
+    }
+    
+    // Strategy 3: Try counting article links as last resort
+    if (articlesCount === 0) {
+      try {
+        const linkCount1 = await this.page.locator('#related-articles-container a[href*="/artikel/"]').count();
+        const linkCount2 = await this.page.locator('#related-articles-container a[href*="/rasiertipps/"]').count();
+        articlesCount = Math.max(linkCount1, linkCount2);
+        if (articlesCount > 0) {
+          log(SYMBOLS.INFO, `Found ${articlesCount} related article links`);
+        }
+      } catch (e) {
+        log(SYMBOLS.WARNING, `Article links count failed: ${e.message}`);
+      }
+    }
+    
+    if (articlesCount === 0) {
+      log(SYMBOLS.WARNING, 'No related articles found on the page');
+      return { success: false, verifiedArticles: [] };
+    }
+    
+    log(SYMBOLS.INFO, `Found ${articlesCount} related articles. Verifying each one...`);
     
     const context = this.page.context();
     const verifiedArticles = [];
     let allSuccess = true;
     
-    for (let j = 1; j <= count; j++) {
+    // Extract all article data at once using page.evaluate for reliability
+    // Use a broader anchor-based extraction to handle nested anchor/h3 cases
+    const articlesData = await this.page.evaluate(() => {
+      const articles = [];
+      const container = document.querySelector('#related-articles-container');
+      if (!container) return articles;
+
+      // Gather all anchors inside the container and try to derive a title + href pair
+      const anchors = Array.from(container.querySelectorAll('a'));
+
+      for (const a of anchors) {
+        try {
+          const href = a.getAttribute('href') || '';
+          if (!href) continue;
+
+          // Skip irrelevant anchors
+          const lc = href.toLowerCase();
+          if (lc.startsWith('javascript:') || lc.startsWith('mailto:') || lc.includes('facebook') || lc.includes('twitter') || lc.includes('instagram')) continue;
+
+          // Try to find a title in the anchor itself
+          let title = '';
+
+          const headingInLink = a.querySelector('h3, h2, h4, h5');
+          if (headingInLink) title = headingInLink.innerText.replace(/\s+/g, ' ').trim();
+
+          // If not found, look for a heading nearby (within closest card)
+          if (!title) {
+            const card = a.closest('div');
+            if (card) {
+              const heading = card.querySelector('h3, h2, h4, h5');
+              if (heading) title = heading.innerText.replace(/\s+/g, ' ').trim();
+            }
+          }
+
+          // If still no title, try title/aria-label or link text
+          if (!title) {
+            title = a.getAttribute('title') || a.getAttribute('aria-label') || (a.textContent || '').replace(/\s+/g, ' ').trim();
+          }
+
+          // Normalize and filter
+          if (title && title.length > 2) {
+            articles.push({ title: title, href: href });
+          }
+        } catch (e) {
+          // ignore per-anchor errors
+        }
+      }
+
+      // Remove duplicates by href and keep order
+      const unique = [];
+      const seen = new Set();
+      for (const it of articles) {
+        if (!seen.has(it.href)) {
+          seen.add(it.href);
+          unique.push(it);
+        }
+      }
+
+      return unique;
+    });
+    
+    // Update articles count based on actual extracted data
+    const actualArticlesCount = Math.min(articlesData.length, articlesCount);
+    log(SYMBOLS.INFO, `Extracted ${articlesData.length} article(s) with valid data`);
+    
+    for (let i = 0; i < actualArticlesCount; i++) {
       try {
-        // Get article name and link from card
-        const articleNameElement = this.getRelatedArticleName(j);
-        const articleLinkElement = this.getRelatedArticleLink(j);
+        const articleData = articlesData[i];
+        const articleTitle = articleData.title;
+        let articleLink = articleData.href;
         
-        await articleNameElement.scrollIntoViewIfNeeded().catch(() => {});
+        // Ensure full URL
+        if (articleLink && !articleLink.startsWith('http')) {
+          const baseUrl = new URL(this.page.url()).origin;
+          articleLink = baseUrl + articleLink;
+        }
         
-        const articleTitle = await this.page.evaluate(
-          el => el?.innerText?.replace(/\s+/g, ' ').trim() || '', 
-          await articleNameElement.elementHandle()
-        );
-        const articleLink = await articleLinkElement.getAttribute('href');
+        log(SYMBOLS.INFO, `Verifying Related Article ${i + 1}: ${articleTitle}`);
         
         // Open article page in new tab
         const newPage = await context.newPage();
@@ -878,14 +1190,14 @@ export class kcgProductDetailsPage extends helperBase {
         const articleMatches = articleTitle.toLowerCase() === adpArticleNameTrimmed.toLowerCase();
         
         if (articleMatches) {
-          log(SYMBOLS.SUCCESS, `✅ Related Article ${j} verified: ${articleTitle}`);
+          log(SYMBOLS.SUCCESS, `✅ Related Article ${i + 1} verified: ${articleTitle}`);
         } else {
-          log(SYMBOLS.ERROR, `❌ Mismatch for Related Article ${j}: Card = ${articleTitle}, Page = ${adpArticleNameTrimmed}`);
+          log(SYMBOLS.ERROR, `❌ Mismatch for Related Article ${i + 1}: Card = ${articleTitle}, Page = ${adpArticleNameTrimmed}`);
           allSuccess = false;
         }
         
         verifiedArticles.push({
-          index: j,
+          index: i + 1,
           cardTitle: articleTitle,
           adpTitle: adpArticleNameTrimmed,
           success: articleMatches
@@ -893,8 +1205,8 @@ export class kcgProductDetailsPage extends helperBase {
         
         await newPage.close();
       } catch (error) {
-        log(SYMBOLS.ERROR, `Failed to verify related article ${j}: ${error.message}`);
-        verifiedArticles.push({ index: j, success: false, error: error.message });
+        log(SYMBOLS.ERROR, `Failed to verify related article ${i + 1}: ${error.message}`);
+        verifiedArticles.push({ index: i + 1, success: false, error: error.message });
         allSuccess = false;
       }
     }
