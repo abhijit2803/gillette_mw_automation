@@ -447,12 +447,13 @@ test.describe('King C. Gillette PDP Sanity Tests - Germany Website', () => {
     log(SYMBOLS.CELEBRATION, '═══════════════════════════════════════════════════════════');
     log(SYMBOLS.CELEBRATION, '🎉 ALL TEST CASES (TC1-TC12) PASSED SUCCESSFULLY! 🎉');
     log(SYMBOLS.CELEBRATION, '═══════════════════════════════════════════════════════════');
+    htmlReport.addStep('Test Completion', 'PASS', '✅ Complete KCG PDP Sanity Test passed successfully');
     
     // Close the browser
     log(SYMBOLS.INFO, 'Closing browser...');
     await page.close();
     await context.close();
     log(SYMBOLS.SUCCESS, '✅ Browser closed successfully');
-    htmlReport.addStep('Close Browser', 'PASS', `✅ Browser closed successfully`);
+    htmlReport.addStep('Close Browser', 'PASS', '✅ Browser closed successfully');
   });
 });

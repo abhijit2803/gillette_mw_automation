@@ -475,6 +475,7 @@ export class HtmlTestReport {
         }
         
         .step-description {
+            width: 25%;
             font-weight: 500;
         }
         
@@ -493,9 +494,11 @@ export class HtmlTestReport {
         }
         
         .step-details {
+            width: auto;
             color: #6c757d;
             font-size: 13px;
-            max-width: 300px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
         .footer {

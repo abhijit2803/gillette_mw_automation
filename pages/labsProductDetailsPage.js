@@ -48,6 +48,14 @@ export class labsProductDetailsPage extends helperBase {
     this.getRelatedProductName = (index) => page.locator(`#related-products-container > div > div:first-child > div > div > div:nth-child(${index}) > div > div > div > a > div:nth-child(2) > h3`);
     this.getRelatedProductLink = (index) => page.locator(`#related-products-container > div > div:first-child > div > div > div:nth-child(${index}) > div > div > div > a`);
 
+    // ==================== Gallery Images Section ====================
+    // Gallery thumbnail icons that can be clicked to change the main product image
+    this.galleryThumbnails = page.locator('[class*="gallery"] [class*="thumbnail"] img, [class*="gallery"] button img, [class*="image-gallery"] [class*="thumb"], [class*="product-gallery"] [class*="thumb"], [data-testid*="gallery"] [class*="thumb"], .gallery-item, [class*="carousel"] [class*="slide"] img');
+    // Main product image that changes when gallery thumbnails are clicked
+    this.mainProductImage = page.locator('[class*="main-image"], [class*="primary-image"], [class*="product-image"] img:not([class*="thumbnail"]), [class*="gallery-main"] img, [id*="main"] img, [class*="hero"] img').first();
+    // Gallery parent container for finding all thumbnails
+    this.galleryContainer = page.locator('[class*="gallery"], [class*="image-gallery"], [class*="product-gallery"], [class*="carousel"]').first();
+
     // Safe area to move mouse away from header (avoid hover menus)
     this.safeAreaElement = page.locator('#main-content > div > div:nth-child(3) > div:first-child > div > div:nth-child(2) > div > h2');
     this.headerBackdrop = page.locator('#headerBackdrop');
@@ -822,6 +830,401 @@ export class labsProductDetailsPage extends helperBase {
       log(SYMBOLS.SUCCESS, `Screenshot saved: ${screenshotPath}`);
     } catch (error) {
       log(SYMBOLS.ERROR, `Failed to take screenshot: ${error.message}`);
+    }
+  }
+
+  // ==================== Image Alt Tag Methods ====================
+
+  /**
+   * Get all product images with their alt tag information
+   * @returns {Promise<Array>} Array of image objects with alt tag details
+   */
+  async getAllProductImagesWithAlt() {
+    try {
+      log(SYMBOLS.INFO, 'Retrieving product content images and their alt tags...');
+      
+      const images = await this.page.evaluate(() => {
+        // Get product content area (main element)
+        const mainContainer = document.querySelector('main');
+        if (!mainContainer) {
+          return [];
+        }
+        
+        const allImages = Array.from(mainContainer.querySelectorAll('img'));
+        
+        const debugInfo = {
+          totalFound: allImages.length,
+          filtered: {
+            svg: 0,
+            header: 0,
+            pricespider: 0,
+            socialIcon: 0,
+            tooSmall: 0
+          }
+        };
+        
+        // Filter out unwanted images - be less restrictive
+        const productImages = allImages.filter(img => {
+          // Exclude SVG images
+          if (img.src && (img.src.includes('.svg') || img.src.includes('svg+xml'))) {
+            debugInfo.filtered.svg++;
+            return false;
+          }
+          
+          // Exclude only header and nav (keep everything else including footer)
+          if (img.closest('header, nav')) {
+            debugInfo.filtered.header++;
+            return false;
+          }
+          
+          // Exclude pricespider popup only if it has the specific ID
+          if (img.closest('[id*="pricespider"]')) {
+            debugInfo.filtered.pricespider++;
+            return false;
+          }
+          
+          // Exclude all social media icons - check src and parent containers
+          const isSocialIcon = 
+            img.closest('[id*="imgBtn"]') || // Social share buttons
+            img.closest('[class*="social"]') || // Social media containers
+            img.closest('[class*="share"]') || // Share containers
+            img.src.includes('facebook') || 
+            img.src.includes('twitter') || 
+            img.src.includes('linkedin') ||
+            img.src.includes('pinterest') ||
+            img.src.includes('instagram') ||
+            img.src.includes('youtube') ||
+            img.src.includes('social') ||
+            img.alt?.toLowerCase().includes('facebook') ||
+            img.alt?.toLowerCase().includes('twitter') ||
+            img.alt?.toLowerCase().includes('linkedin') ||
+            img.alt?.toLowerCase().includes('pinterest') ||
+            img.alt?.toLowerCase().includes('instagram') ||
+            img.alt?.toLowerCase().includes('share');
+            
+          if (isSocialIcon) {
+            debugInfo.filtered.socialIcon++;
+            return false;
+          }
+          
+          // Only exclude extremely small images (< 5x5 pixels)
+          const width = img.naturalWidth || img.width;
+          const height = img.naturalHeight || img.height;
+          if (width < 5 && height < 5) {
+            debugInfo.filtered.tooSmall++;
+            return false;
+          }
+          
+          // Include all other images
+          return true;
+        });
+        
+        const imageList = productImages.map((img, index) => {
+          const url = new URL(img.src);
+          const pathname = url.pathname;
+          const fullFilename = pathname.split('/').pop() || 'unknown';
+          // Remove query parameters from filename
+          const filename = fullFilename.split('?')[0];
+          
+          const alt = img.alt || img.getAttribute('alt') || '';
+          const hasAlt = alt.trim().length > 0;
+          
+          return {
+            index: index + 1,
+            filename: filename,
+            src: img.src,
+            alt: alt,
+            hasAlt: hasAlt,
+            altStatus: hasAlt ? 'Present' : 'Missing',
+            width: img.naturalWidth || img.width,
+            height: img.naturalHeight || img.height
+          };
+        });
+        
+        return {
+          images: imageList,
+          debugInfo: debugInfo
+        };
+      });
+      
+      // Log debug information
+      log(SYMBOLS.INFO, `📊 Image Detection Statistics:`);
+      log(SYMBOLS.INFO, `   Total images found in main: ${images.debugInfo.totalFound}`);
+      log(SYMBOLS.INFO, `   Filtered out SVG: ${images.debugInfo.filtered.svg}`);
+      log(SYMBOLS.INFO, `   Filtered out header/nav: ${images.debugInfo.filtered.header}`);
+      log(SYMBOLS.INFO, `   Filtered out pricespider: ${images.debugInfo.filtered.pricespider}`);
+      log(SYMBOLS.INFO, `   Filtered out social icons: ${images.debugInfo.filtered.socialIcon}`);
+      log(SYMBOLS.INFO, `   Filtered out too small: ${images.debugInfo.filtered.tooSmall}`);
+      log(SYMBOLS.SUCCESS, `✅ Found ${images.images.length} product content images`);
+      
+      return images.images;
+      
+    } catch (error) {
+      log(SYMBOLS.ERROR, `Failed to retrieve product images: ${error.message}`);
+      return [];
+    }
+  }
+
+  /**
+   * Verify all product images have proper alt tags
+   * @returns {Promise<Object>} Validation results with counts and details
+   */
+  async verifyProductImagesAltTags() {
+    try {
+      log(SYMBOLS.INFO, 'Verifying product images and alt tags...');
+      
+      const images = await this.getAllProductImagesWithAlt();
+      const totalImages = images.length;
+      const imagesWithAlt = images.filter(img => img.hasAlt);
+      const imagesWithoutAlt = images.filter(img => !img.hasAlt);
+      
+      log(SYMBOLS.INFO, `📊 Product Image Statistics:`);
+      log(SYMBOLS.INFO, `   Total Product Images: ${totalImages}`);
+      log(SYMBOLS.INFO, `   With Alt Tags: ${imagesWithAlt.length}`);
+      log(SYMBOLS.INFO, `   Without Alt Tags: ${imagesWithoutAlt.length}`);
+      log(SYMBOLS.INFO, '');
+      
+      // Log all images with their alt tag status
+      if (totalImages > 0) {
+        log(SYMBOLS.INFO, `📋 Complete Image List:`);
+        images.forEach(img => {
+          const status = img.hasAlt ? '✅' : '❌';
+          const statusText = img.hasAlt ? 'PRESENT' : 'MISSING';
+          if (img.hasAlt) {
+            const altPreview = img.alt.length > 50 ? img.alt.substring(0, 50) + '...' : img.alt;
+            log(SYMBOLS.SUCCESS, `   ${status} Image ${img.index}: "${img.filename}"`);
+            log(SYMBOLS.SUCCESS, `      Alt Tag: "${altPreview}" [${statusText}]`);
+          } else {
+            log(SYMBOLS.WARNING, `   ${status} Image ${img.index}: "${img.filename}"`);
+            log(SYMBOLS.WARNING, `      Alt Tag: [${statusText}]`);
+          }
+        });
+      }
+      
+      log(SYMBOLS.INFO, '');
+      
+      // Summary
+      if (imagesWithoutAlt.length === 0) {
+        log(SYMBOLS.SUCCESS, `✅ All ${totalImages} product images have alt tags!`);
+      } else {
+        log(SYMBOLS.WARNING, `⚠️  ${imagesWithoutAlt.length} out of ${totalImages} images are missing alt tags`);
+      }
+      
+      const allHaveAlt = imagesWithoutAlt.length === 0;
+      
+      return {
+        success: allHaveAlt,
+        totalImages: totalImages,
+        imagesWithAlt: imagesWithAlt.length,
+        imagesWithoutAlt: imagesWithoutAlt.length,
+        images: images,
+        imagesWithAltDetails: imagesWithAlt,
+        missingAltImages: imagesWithoutAlt
+      };
+      
+    } catch (error) {
+      log(SYMBOLS.ERROR, `Image validation failed: ${error.message}`);
+      return {
+        success: false,
+        totalImages: 0,
+        imagesWithAlt: 0,
+        imagesWithoutAlt: 0,
+        images: [],
+        imagesWithAltDetails: [],
+        missingAltImages: []
+      };
+    }
+  }
+
+  // ==================== Gallery Image Methods ====================
+
+  /**
+   * Verify gallery image functionality by clicking each thumbnail and validating image change
+   * @returns {Promise<Object>} Validation results with details about each gallery image
+   */
+  async verifyGalleryImages() {
+    try {
+      log(SYMBOLS.INFO, 'Verifying gallery image functionality...');
+      log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
+      log(SYMBOLS.ROCKET, 'Gallery Image Verification - Slick Carousel Thumbnails');
+      log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
+
+      // Scroll to top to ensure gallery is visible
+      await this.page.evaluate(() => window.scrollTo(0, 0));
+      await this.page.waitForTimeout(2000);
+
+      // Get the main product image element
+      const mainImgSelector = 'img.kcg-mainImg';
+      const mainImgLocator = this.page.locator(mainImgSelector).first();
+
+      // Get initial main image source
+      const getMainImageSrc = async () => {
+        try {
+          return await mainImgLocator.getAttribute('src').catch(() => '');
+        } catch (e) {
+          return '';
+        }
+      };
+
+      let initialImageSrc = await getMainImageSrc();
+      log(SYMBOLS.INFO, `Initial main image src: ${initialImageSrc.substring(0, 80)}`);
+
+      // Find thumbnail slides in the gallery wrapper (.kcg-gallery-thumbs .slick-slide)
+      const thumbnailSlideSelector = '.kcg-gallery-thumbs .slick-slide';
+      const thumbnailLocator = this.page.locator(thumbnailSlideSelector);
+
+      const thumbnailCount = await thumbnailLocator.count();
+      log(SYMBOLS.INFO, `Found ${thumbnailCount} gallery thumbnail(s)`);
+
+      if (thumbnailCount === 0) {
+        log(SYMBOLS.WARNING, '⚠️ No gallery thumbnails found on the page');
+        return {
+          success: false,
+          totalThumbnails: 0,
+          successfullyVerified: 0,
+          failedCount: 0,
+          successRate: 0,
+          thumbnailsVerified: [],
+          verificationMessage: 'No gallery thumbnails found'
+        };
+      }
+
+      const verificationResults = [];
+      let successCount = 0;
+
+      // Process each thumbnail and swap main image
+      for (let i = 0; i < thumbnailCount; i++) {
+        try {
+          const thumbnail = thumbnailLocator.nth(i);
+
+          // Get thumbnail image data for reporting
+          let thumbnailAlt = '';
+          let thumbnailSrc = '';
+          try {
+            const img = await thumbnail.locator('img').first();
+            thumbnailAlt = await img.getAttribute('alt').catch(() => '');
+            thumbnailSrc = await img.getAttribute('src').catch(() => '');
+          } catch (e) {
+            // Ignore errors getting thumbnail details
+          }
+
+          log(SYMBOLS.INFO, `Processing gallery thumbnail ${i + 1}/${thumbnailCount} - "${thumbnailAlt}"`);
+
+          // Get the thumbnail's image source and swap the main image
+          const swapResult = await this.page.evaluate(({ mainSelector, thumbSelector, index }) => {
+            const mainImg = document.querySelector(mainSelector);
+            const thumbSlides = document.querySelectorAll(thumbSelector);
+            
+            if (!mainImg || !thumbSlides[index]) {
+              return { success: false, message: 'Could not find elements' };
+            }
+            
+            const thumbImg = thumbSlides[index].querySelector('img');
+            if (!thumbImg || !thumbImg.src) {
+              return { success: false, message: 'Could not find thumbnail image' };
+            }
+            
+            // Get current main image src before swap
+            const oldSrc = mainImg.src;
+            
+            // Swap the image
+            mainImg.src = thumbImg.src;
+            mainImg.alt = thumbImg.alt || mainImg.alt;
+            
+            return {
+              success: true,
+              oldSrc,
+              newSrc: thumbImg.src,
+              thumbAlt: thumbImg.alt
+            };
+          }, { mainSelector: mainImgSelector, thumbSelector: thumbnailSlideSelector, index: i });
+
+          // Wait for image to load
+          await this.page.waitForTimeout(800);
+
+          // Verify image changed
+          const newImageSrc = await getMainImageSrc();
+          const imageChanged = newImageSrc !== initialImageSrc && swapResult.success;
+
+          const result = {
+            index: i + 1,
+            thumbnailNumber: `Thumbnail ${i + 1}`,
+            success: imageChanged && swapResult.success,
+            thumbnailSrc: thumbnailSrc || swapResult.newSrc || 'N/A',
+            thumbnailAlt: thumbnailAlt || swapResult.thumbAlt || 'No alt text',
+            mainImageInitial: initialImageSrc.substring(0, 100),
+            mainImageAfterClick: newImageSrc.substring(0, 100),
+            imageChanged: imageChanged,
+            swapSuccess: swapResult.success
+          };
+
+          verificationResults.push(result);
+
+          if (imageChanged && swapResult.success) {
+            successCount++;
+            log(SYMBOLS.SUCCESS, `✅ Thumbnail ${i + 1}: Image changed successfully`);
+            if (thumbnailAlt || swapResult.thumbAlt) {
+              log(SYMBOLS.SUCCESS, `   Alt text: "${thumbnailAlt || swapResult.thumbAlt}"`);
+            }
+            // Update initial image for next iteration to track progression
+            initialImageSrc = newImageSrc;
+          } else {
+            log(SYMBOLS.WARNING, `⚠️ Thumbnail ${i + 1}: Image swap failed - ${swapResult.message || 'no image change'}`);
+          }
+
+        } catch (error) {
+          log(SYMBOLS.ERROR, `❌ Thumbnail ${i + 1}: Error occurred - ${error.message}`);
+          verificationResults.push({
+            index: i + 1,
+            thumbnailNumber: `Thumbnail ${i + 1}`,
+            success: false,
+            error: error.message,
+            imageChanged: false
+          });
+        }
+      }
+
+      // Summary
+      log(SYMBOLS.INFO, '');
+      log(SYMBOLS.INFO, `📊 Gallery Verification Summary:`);
+      log(SYMBOLS.INFO, `   Total Thumbnails: ${thumbnailCount}`);
+      log(SYMBOLS.INFO, `   Successfully Verified: ${successCount}`);
+      log(SYMBOLS.INFO, `   Success Rate: ${Math.round((successCount / thumbnailCount) * 100)}%`);
+
+      const allSuccessful = successCount === thumbnailCount;
+      const verificationMessage = allSuccessful
+        ? `✅ All ${thumbnailCount} gallery images verified successfully!`
+        : `⚠️ ${successCount} out of ${thumbnailCount} gallery images verified (${thumbnailCount - successCount} had issues)`;
+
+      if (allSuccessful) {
+        log(SYMBOLS.SUCCESS, verificationMessage);
+      } else if (successCount > 0) {
+        log(SYMBOLS.WARNING, verificationMessage);
+      } else {
+        log(SYMBOLS.ERROR, verificationMessage);
+      }
+
+      return {
+        success: allSuccessful,
+        totalThumbnails: thumbnailCount,
+        successfullyVerified: successCount,
+        failedCount: thumbnailCount - successCount,
+        successRate: Math.round((successCount / thumbnailCount) * 100),
+        thumbnailsVerified: verificationResults,
+        verificationMessage: verificationMessage
+      };
+
+    } catch (error) {
+      log(SYMBOLS.ERROR, `Gallery verification failed: ${error.message}`);
+      return {
+        success: false,
+        totalThumbnails: 0,
+        successfullyVerified: 0,
+        failedCount: 0,
+        successRate: 0,
+        thumbnailsVerified: [],
+        verificationMessage: `Error: ${error.message}`
+      };
     }
   }
 }

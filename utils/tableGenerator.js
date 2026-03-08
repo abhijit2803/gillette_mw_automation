@@ -13,12 +13,12 @@ export function generateImageAltTagTable(images) {
     return '<p>No images found</p>';
   }
 
-  let tableHtml = '<table style="width:100%; border-collapse: collapse; margin-top: 10px;">' +
+  let tableHtml = '<table style="width:100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed;">' +
     '<tr style="background-color: #f0f0f0;">' +
-    '<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">#</th>' +
-    '<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Image Filename</th>' +
-    '<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Alt Tag</th>' +
-    '<th style="border: 1px solid #ddd; padding: 8px; text-align: center;">Status</th>' +
+    '<th style="border: 1px solid #ddd; padding: 8px; text-align: left; width: 50px;">#</th>' +
+    '<th style="border: 1px solid #ddd; padding: 8px; text-align: left; width: 30%;">Image Filename</th>' +
+    '<th style="border: 1px solid #ddd; padding: 8px; text-align: left; width: auto;">Alt Tag</th>' +
+    '<th style="border: 1px solid #ddd; padding: 8px; text-align: center; width: 100px;">Status</th>' +
     '</tr>';
   
   images.forEach(img => {
@@ -29,8 +29,8 @@ export function generateImageAltTagTable(images) {
     
     tableHtml += '<tr>' +
       `<td style="border: 1px solid #ddd; padding: 8px;">${img.index}</td>` +
-      `<td style="border: 1px solid #ddd; padding: 8px; font-family: monospace;">${img.filename}</td>` +
-      `<td style="border: 1px solid #ddd; padding: 8px;">${altText}</td>` +
+      `<td style="border: 1px solid #ddd; padding: 8px; font-family: monospace; word-wrap: break-word;">${img.filename}</td>` +
+      `<td style="border: 1px solid #ddd; padding: 8px; word-wrap: break-word; overflow-wrap: break-word;">${altText}</td>` +
       `<td style="border: 1px solid #ddd; padding: 8px; text-align: center; color: ${statusColor}; font-weight: bold;">${statusIcon} ${statusText}</td>` +
       '</tr>';
   });

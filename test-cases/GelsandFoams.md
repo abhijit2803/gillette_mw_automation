@@ -1,465 +1,462 @@
-package PDP;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.time.Duration;
-import java.util.Iterator;
-import java.util.Set;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import Test_Report.HTML_Report.HtmlTestReport;
-
-public class Gel_Foams_PDP_Sanity {
-
-public static void main(String[] args) throws java.io.IOException, InterruptedException, java.awt.AWTException, Exception{
-Test_Report.HTML_Report HTML_ReportInstance = new Test_Report.HTML_Report();
-HtmlTestReport report = HTML_ReportInstance.new HtmlTestReport();
-
-// Path to the Excel file containing URLs
-String excelFilePath = "C:\\Users\\Public\\Project Code\\Germany\\Gels_Foams_URLs_Germany.xlsx"; // Update with your actual path
-
-try (FileInputStream fis = new FileInputStream(new File(excelFilePath));
-    Workbook workbook = new XSSFWorkbook(fis)) {
-
-    Sheet sheet = workbook.getSheetAt(0);
-
-    int urlCount = 0;
-    for (Row row : sheet) {
-        Cell cell = row.getCell(0); // Assuming URLs are in the first column
-        if (cell != null && cell.getCellType() == CellType.STRING && !cell.getStringCellValue().trim().isEmpty()) {
-            urlCount++;
-            }
-        }
-        System.out.println("Total number of URLs: " + urlCount);
-        report.addStep("URL Count", "INFO", "Total number of King C. Gillette Product URLs for sanity: " + urlCount);
-
-        Iterator<Row> rowIterator = sheet.iterator();
-        System.out.println("Reading URLs from Excel:");
-
-        int count=1;
-        while (count <= urlCount) {
-            while (rowIterator.hasNext()) {
-            Row row = rowIterator.next();
-            Cell cell = row.getCell(0); // Assuming URLs are in the first column
-
-            if (cell != null) {
-                    
-            // Set the path to the Chrome Driver executable
-            System.setProperty("webdriver.chrome.driver", "C:\\Users\\Public\\Project Code\\chromedriver-win64\\chromedriver.exe");
-
-            // Launch browser
-            WebDriver driver = new ChromeDriver();
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            report.addStep("Browser Initialization", "PASS", "✅ Browser initialized successfully for " + count + " time");
-
-            // Maximize the browser window
-            driver.manage().window().maximize();
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
-            String url = cell.getStringCellValue();
-            System.out.println("Launching: " + url);
-            report.addStep("Launch URL", "INFO", "Launching Product URL Number " + count + " from input file: " + url);
-
-            // Navigate to the target URL
-            System.out.println("Navigating to: " + url);
-            driver.get(url);
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); // Wait for page to load
-            report.addStep("Navigate to URL" , "PASS", "✅ Navigated to URL: " + count + " " + url);
-
-            // Wait for the Accept All Cookies button to be clickable
-            WebElement acceptCookiesButton = wait.until(
-            ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='onetrust-accept-btn-handler']"))
-            );
-
-            // Click the Accept All Cookies button
-            acceptCookiesButton.click();
-            Thread.sleep(2000); // Wait for cookies to be accepted
-            report.addStep("Cookies", "PASS", "✅ Cookies accepted successfully");
-                    
-            // Validate current URL
-            String currentUrl = driver.getCurrentUrl();
-            System.out.println("Current URL: " + currentUrl);
-            // If you want to compare with the expected URL, declare expectedUrl or use urlParts
-            if (currentUrl.equals(url)) {
-            System.out.println("✅ URL loaded successfully: " + currentUrl);
-            report.addStep("Navigated to product page", "PASS", "✅ URL Number " + count + " loaded successfully and matches with input product URL. The URL is: " + currentUrl);
-            } else {
-            System.out.println("❌ URL did not load as expected. Expected: " + url + ", but got: " + currentUrl);
-            report.addStep("Navigated to product page", "FAIL", "❌ URL Number " + count + " did not match with input data. Expected: " + url + ", but got: " + currentUrl);
-            }
-            
-            String productName = "";
-            // Verify H1 tag
-            try {
-                WebElement h1 = driver.findElement(By.tagName("h1"));
-                productName = h1.getText();
-                System.out.println("Product Name: " + productName);
-                report.addStep("Product Name", "PASS", "✅ Product Name of product number " + count + ": " + productName);
-                } catch (Exception e) {
-                System.out.println("Product Name not found on: " + url);
-                report.addStep("Product Name", "FAIL", "❌ Product Name of product number " + count + " is not found on: " + url);
-            }
-                Thread.sleep(5000);
-
-            // Store the main window handle before any popup is opened
-            String mainWindow = driver.getWindowHandle();
-
-            //Verify Facebook Functionality
-            String fb_message = "https://www.gillette.de/";
-            WebElement fb_iconElement = driver.findElement(By.id("imgBtnFacebook"));
-            fb_iconElement.click();
-            Thread.sleep(3000); // Wait for the popup to load
-
-            // Handle pop-up window
-            for (String handle : driver.getWindowHandles()) {
-                if (!handle.equals(mainWindow)) {
-                driver.switchTo().window(handle);
-                break;
-                }
-            }
-
-        try {
-            WebElement fb_successMsgElement = driver.findElement(By.xpath("//*[@id=\"overview\"]/div/div/div[2]/div[1]/div/div[2]/div/div/div[1]/div/div/div/div[1]/div/div/div[2]/a"));
-            String fb_expectedmessage = fb_successMsgElement.getText();
-            fb_expectedmessage = (String) ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("return arguments[0].innerText.replace(/\\s+/g, ' ').trim();", fb_successMsgElement);
-
-        if (fb_message.equals(fb_expectedmessage)) {
-            System.out.println("✅ Success message verified. Success message matches with expected text.");
-            report.addStep("Click 'Facebook Icon'", "PASS", "✅ 'Facebook Icon' button clicked.");
-            } else {
-            System.out.println("❌ Success message not found. Success message does not match expected text.");
-            report.addStep("Click 'Facebook Icon'", "FAIL", "❌ 'Facebook Icon' button clicked.");
-            }
-        System.out.println("Actual message: " + fb_successMsgElement.getText());
-        } catch (Exception e) {
-        // Optionally, you can print the title if needed:
-        System.out.println("Fallback title: " + driver.getTitle());
-        }
-
-        //Close Facebook popup
-        WebElement fb_closeButton = driver.findElement(By.xpath("//*[@id=\"closeButton\"]/span"));
-        fb_closeButton.click();
-
-        // Switch back to the main window after closing the popup
-        driver.switchTo().window(mainWindow);
-
-        // Verify Copy URL Functionality
-        String copy_URL = "";
-        WebElement copy_iconElement = driver.findElement(By.id("imgBtncopyLink"));
-        copy_iconElement.click();
-        Thread.sleep(5000); // Wait for the popup to load
-
-        // Handle pop-up window
-        for (String handle : driver.getWindowHandles()) {
-            if (!handle.equals(mainWindow)) {
-                driver.switchTo().window(handle);
-                break;
-            }
-        }
-
-        WebElement copyButtonElement = driver.findElement(By.id("copyLink"));
-        Thread.sleep(2000); // Wait for the copy action to complete
-        copy_URL = copyButtonElement.getAttribute("value");
-        Thread.sleep(2000); // Wait for the copy action to complete
-        System.out.println("Copied URL: " + copy_URL);
-
-        if (copy_URL.contains(currentUrl)) {
-        System.out.println("✅ Copy URL functionality works & matches with current URL. Copied URL: " + copy_URL);
-        report.addStep("Click 'Copy Icon'", "PASS", "✅ 'Copy Icon' button clicked.");
-        } else {
-        System.out.println("❌ Copy URL functionality failed. Copied URL does not match with current URL.");
-        report.addStep("Click 'Copy Icon'", "FAIL", "❌ 'Copy Icon' button not clicked.");
-    }
-
-    //Close Copy URL popup
-    try {
-        WebElement copy_closeButton = driver.findElement(By.xpath("//*[@id=\"closeButton\"]/span"));
-        copy_closeButton.click();
-        System.out.println("Copy URL popup closed successfully.");
-        } catch (Exception e) {
-        System.out.println("Close button not found or could not close Copy URL popup.");
-    }
-    // Switch back to the main window after closing the popup
-    driver.switchTo().window(mainWindow);
-
-    //Verify Favorite Functionality
-    String fav_Window = driver.getWindowHandle(); // Store the main window handle before opening favorite popup
-    WebElement fav_iconElement = driver.findElement(By.xpath("//*[@id=\"overview\"]/div/div/div[2]/div[1]/div/div[2]/button"));
-    fav_iconElement.click();
-    String fav_headerIcon = driver.findElement(By.xpath("//*[@id=\"heartIcon\"]")).getAttribute("href");
-    ((JavascriptExecutor) driver).executeScript("window.open(arguments[0]);", fav_headerIcon);
-    Thread.sleep(2000);
-
-    Set<String> favWindows = driver.getWindowHandles();
-    for (String windowHandle : favWindows) {
-        if (!windowHandle.equals(fav_Window)) {
-        driver.switchTo().window(windowHandle);
-        Thread.sleep(3000);
-        WebElement fav_Product_menu = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[2]/div[2]/div/a[2]/span[1]/span"));
-        fav_Product_menu.click();
-
-        String fav_ProductName = driver.findElement(By.xpath("//*[@id=\"product-undefined\"]/div/div/a")).getText();
-
-        if (productName.equalsIgnoreCase(fav_ProductName)) {
-        System.out.println("✅ Correct Product linked. Product: " + fav_ProductName);
-        report.addStep("Click 'Favorite Icon'", "PASS", "✅ 'Favorite Icon' button clicked.");
-        } else {
-        System.out.println("❌ Mismatch: Card = " + productName + ", Page = " + fav_ProductName);
-        report.addStep("Click 'Favorite Icon'", "FAIL", "❌ 'Favorite Icon' button not clicked.");
-        }
-
-        driver.close();
-        driver.switchTo().window(fav_Window);
-        break;
-        }
-    }
-
-    //Verify BUY NOW button functionality
-    String pop_upmsg = "Online-Händler";
-    String BuyNow_Window = driver.getWindowHandle();
-    WebElement buynowButton = wait.until(
-    ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"shopnowBtn-container\"]/div/span[2]"))
-    );
-    buynowButton.click();
-    Thread.sleep(5000); // Wait for the popup to load
-
-    // Handle pop-up window
-    for (String handle : driver.getWindowHandles()) {
-        if (!handle.equals(BuyNow_Window)) {
-        driver.switchTo().window(handle);
-        break;
-       }
-    }
-
-    try {
-    WebElement buynow_successMsgElement = driver.findElement(By.xpath("/html/body/div[5]/div/div[6]/div[1]/h2"));
-    String buynow_expectedmessage = buynow_successMsgElement.getText();
-    //buynow_expectedmessage = (String) ((JavascriptExecutor) driver).executeScript("return arguments[0].innerText.replace(/\\s+/g, ' ').trim();", buynow_successMsgElement);
-
-    if (pop_upmsg.equals(buynow_expectedmessage)) {
-        System.out.println("✅ Success message verified. Success message matches with expected text.");
-        report.addStep("Click 'Buy Now Button'", "PASS", "✅ 'Buy Now Button' button is successfully clicked. The Verified message on pop-up is: " + buynow_expectedmessage);
-    } else {
-        System.out.println("❌ Success message not found. Success message does not match expected text.");
-        report.addStep("Click 'Buy Now Button'", "FAIL", "❌ 'Buy Now Button' button not clicked.");
-    }
-    System.out.println("Actual message: " + buynow_successMsgElement.getText());
-    } catch (Exception e) {
-    // Optionally, you can print the title if needed:
-    System.out.println("Fallback title: " + driver.getTitle());
-    }
-    Thread.sleep(5000); 
-
-    //Close BUY Now popup
-    WebElement buynow_closeButton = driver.findElement(By.xpath("/html/body/div[5]/div/span[1]"));
-    buynow_closeButton.click();
-
-    // Switch back to the main window after closing the popup
-    driver.switchTo().window(BuyNow_Window);
-
-   // Move mouse away from header to avoid hover
-   WebElement safeArea = driver.findElement(By.xpath("//*[@id=\"overview\"]/div/div/div[2]/div[3]/p")); // or any element away from header
-   Actions actions = new Actions(driver);
-   actions.moveToElement(safeArea).perform();
-
-   // Wait for header dropdown to disappear
-   wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("headerBackdrop")));
-
-   // Verify Menu Click Functionality
-   // Verify Feature Section click functionality
-   WebElement featureSectionButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"inner-tabs\"]/button[1]")));
-    featureSectionButton.click();
-    Thread.sleep(2000); // Wait for the feature section to load
-    WebElement featureSection = driver.findElement(By.xpath("//*[@id=\"feature\"]/div[1]/div[1]"));
-    if (featureSection.isDisplayed()) {
-        String featureSectionTitle = featureSection.getText();
-        System.out.println("✅ Feature Section title is correct: " + featureSectionTitle);
-        report.addStep("Click 'Feature Section' from MENU list", "PASS", "✅ 'Feature Section' option is clicked from the MENU List and page scrolls to FEATURE section. The first feature heading is: " + featureSectionTitle);
-    } else {
-        System.out.println("❌ Feature Section title is incorrect: " + featureSection.getText());
-        report.addStep("Click 'Feature Section' from MENU list", "FAIL", "❌ 'Feature Section' not clicked.");
-    }
-
-    // Verify Review Section click functionality
-    String reviewButtonTitle = "BEWERTUNG SCHREIBEN";
-    WebElement reviewSection = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"inner-tabs\"]/button[2]")));
-    reviewSection.click();
-    Thread.sleep(4000); // Wait for the review section to load
-    String reviewSectionTitle = driver.findElement(By.xpath("//*[@id=\"review\"]/div/div/div/a/span[1]")).getText();
-    if (reviewSectionTitle.contains(reviewButtonTitle)) {
-        System.out.println("✅ Review Section title is correct: " + reviewSectionTitle);
-        report.addStep("Click 'Review Section' from MENU list", "PASS", "✅ 'Review Section' option is clicked from the MENU List and page scrolls to REVIEW section.");
-    } else {
-        System.out.println("❌ Review Section title is incorrect: " + reviewSectionTitle);
-        report.addStep("Click 'Review Section' from MENU list", "FAIL", "❌ 'Review Section' not clicked.");
-    }
-
-    // ********** Validate Write A Review Button & Page **********
-    // Verify the "Write A Review" button
-
-    WebElement writeReviewButton = driver.findElement(By.xpath("//*[@id=\"review\"]/div/div/div[1]/a"));
-    if (writeReviewButton.isDisplayed()) {
-    System.out.println("'Write A Review' button is found.");
-    report.addStep("Write A Review Button", "PASS", "✅ 'Write A Review' Button is found for Product Number " + count);
-    // Wait for potential new window/tab or page change
-    Thread.sleep(3000);
-    } else {
-    System.out.println("'Write A Review' button not found.");
-    report.addStep("Write A Review Button", "FAIL", "❌ 'Write A Review' Button is NOT found for Product Number " + count);
-    }
-
-    // Click the Write A Review button
-    System.out.println("Clicking on 'Write A Review' button...");
-    writeReviewButton.click();
-    //js.executeScript("arguments[0].click();", writeReviewButton);
-    report.addStep("Write A Review Button", "PASS", "✅ 'Write A Review' Button is found for Product Number " + count + " and clicked successfully.");
-
-    // Validate Write A Review URL
-    String reviewUrl = driver.getCurrentUrl();
-    System.out.println("Review Page URL: " + reviewUrl);
-
-    // Extract product name from H1 or title
-    String productName_WAR;
-    try {
-        WebElement h1Tag = driver.findElement(By.tagName("h1"));
-        productName_WAR = h1Tag.getText();
-        } catch (Exception e) {
-        productName_WAR = driver.getTitle();
-        }
-
-        System.out.println("Extracted Product Name in Write A Review Page: " + productName_WAR);
-
-        // Validate product name on review page
-
-        if (productName_WAR.equals(productName)) {
-        System.out.println("Product name is correctly displayed on the review page.");
-        report.addStep("Write A Review Page", "PASS", "✅ 'Write A Review' Page is successfully displayed for Product Number " + count + ". The Product name on review page is: " + productName_WAR); 
-        } else {
-        System.out.println("Product name is NOT found on the review page.");
-        report.addStep("Write A Review Page", "FAIL", "❌ 'Write A Review' Page is NOT displayed for Product Number " + count + ". The Product name on review page is: " + productName_WAR);
-        }
-
-        //Click on CANCEL button on Write A Review section to return to PDP
-        WebElement cancelButton = driver.findElement(By.xpath("//*[@id=\"main-content\"]/div/div[2]/div[2]/div/form/div[1]/div[8]/a"));
-        cancelButton.click();
-        Thread.sleep(3000); // Wait for the page to load
-        if (driver.getCurrentUrl().equals(currentUrl)) {
-        System.out.println("✅ 'Cancel' Button is clicked, and returned to PDP page successfully.");
-        report.addStep("Cancel Button", "PASS", "✅ 'Cancel' Button is clicked on WRITE A REVIEW page for Product Number " + count + " and returned to corresponding PRODUCT page successfully.");
-        } else {
-        System.out.println("❌ 'Cancel' Button is NOT clicked, and did not return to PDP page.");
-        report.addStep("Cancel Button", "FAIL", "❌ 'Cancel' Button is NOT clicked for Product Number " + count);
-        }
-    
-    Thread.sleep(5000);
-
-    
-    // ********** VERIFY THE RELATED PRODUCTS SECTION **********
-    // Verify the products linked in related products section
-    String originalWindow = driver.getWindowHandle();
-
-    for (int i = 1; i <= 3; i++) {
-        WebElement relatedProductname = driver.findElement(By.xpath("//*[@id=\"related-products-container\"]/div/div[1]/div/div/div[" + i + "]/div/div/div/a/div[2]/h3"));
-        WebElement relatedProductLink = driver.findElement(By.xpath("//*[@id=\"related-products-container\"]/div/div[1]/div/div/div[" + i + "]/div/div/div/a"));
-        String productTitle = (String) ((JavascriptExecutor) driver).executeScript("return arguments[0].innerText.replace(/\\s+/g, ' ').trim();", relatedProductname);
-        String productLink = relatedProductLink.getAttribute("href");
-
-    ((JavascriptExecutor) driver).executeScript("window.open(arguments[0]);", productLink);
-    Thread.sleep(5000);
-
-    Set<String> allWindows = driver.getWindowHandles();
-    for (String windowHandle : allWindows) {
-        if (!windowHandle.equals(originalWindow)) {
-        driver.switchTo().window(windowHandle);
-        Thread.sleep(5000);
-
-        String PDP_ProductName = driver.findElement(By.tagName("h1")).getText();
-
-        if (productTitle.equalsIgnoreCase(PDP_ProductName)) {
-        System.out.println("✅ Correct Product linked. Product: " + productTitle);
-        report.addStep("Verify Related Product", "PASS", "✅ Product linked at " + i + " position: " + productTitle);
-        } else {
-        System.out.println("❌ Mismatch: Card = " + productTitle + ", Page = " + PDP_ProductName);
-        report.addStep("Verify Related Product", "FAIL", "❌ Mismatch: Card = " + productTitle + ", Page = " + PDP_ProductName);
-        }
-
-        driver.close();
-        driver.switchTo().window(originalWindow);
-        break;
-        }
-    }
-}
-
-    Thread.sleep(10000);
-
-    //Verify the articles linked in related articles section
-    String originalWindowArticle = driver.getWindowHandle();
-
-    for (int j = 1; j <= 3; j++) {
-        WebElement relatedArticleName = driver.findElement(By.xpath("//*[@id=\"related-articles-container\"]/div/div/div/div/div[" + j + "]/div/div/a/div/div[2]/a[1]/h3"));
-        //*[@id="related-articles-container"]/div/div/div/div/div[1]/div/div/a/div/div[2]/a[1]/h3
-        //*[@id="related-articles-container"]/div/div/div/div/div[2]/div/div/a/div/div[2]/a[1]/h3
-        WebElement relatedArticleLink = driver.findElement(By.xpath("//*[@id=\"related-articles-container\"]/div/div/div/div/div[" + j + "]/div/div/a/div/div[2]/a[2]"));
-        String articleTitle = (String) ((JavascriptExecutor) driver).executeScript("return arguments[0].innerText.replace(/\\s+/g, ' ').trim();", relatedArticleName);
-        String articleLink = relatedArticleLink.getAttribute("href");
-
-        ((JavascriptExecutor) driver).executeScript("window.open(arguments[0]);", articleLink);
-        Thread.sleep(2000);
-
-        Set<String> articleWindows = driver.getWindowHandles();
-        for (String windowHandle : articleWindows) {
-            if (!windowHandle.equals(originalWindowArticle)) {
-            driver.switchTo().window(windowHandle);
-            Thread.sleep(3000);
-
-            WebElement PDP_ArticleName = driver.findElement(By.tagName("h1"));
-            String PDP_articleTitle = (String) ((JavascriptExecutor) driver).executeScript("return arguments[0].innerText.replace(/\\s+/g, ' ').trim();", PDP_ArticleName);
-
-            if (articleTitle.equalsIgnoreCase(PDP_articleTitle)) {
-                System.out.println("✅ Correct Article linked. Article: " + articleTitle);
-                report.addStep("Verify Related Article", "PASS", "✅ Article linked at " + j + " position: " + articleTitle);
-                } else {
-                System.out.println("❌ Mismatch: Card = " + articleTitle + ", Page = " + PDP_articleTitle);
-                report.addStep("Verify Related Article", "FAIL", "❌ Mismatch: Card = " + articleTitle + ", Page = " + PDP_articleTitle);
-                }
-
-            driver.close();
-            driver.switchTo().window(originalWindowArticle);
-            break;
-            }
-        }
-    }
-
-    // Close browser
-    driver.quit();
-    report.addStep("Close Browser", "PASS", "✅ Browser closed successfully for " + count + " time");
-
-    // Report Generation
-    try {
-        report.generateReport("Gels_Foams_Sanity_Report.html");
-        System.out.println("HTML report generated: For Gels & Foams Sanity Check");
-        } catch (IOException e) {
-        e.printStackTrace();
-        }
-        count++;
-        }
-    }
-}
-}
-}
-}
+# Gels and Foams Product Detail Page (PDP) - Manual Test Cases
+
+## Test Suite Information
+**Test Suite Name:** Gels and Foams PDP Sanity Testing  
+**Module:** Product Detail Page (PDP)  
+**Product Category:** Gels and Foams  
+**Test Type:** Functional Testing  
+**Test Environment:** Production/Staging (Germany)  
+**Browser:** Chrome (Latest Version)  
+
+---
+
+## Prerequisites
+1. Test data file with product URLs (Excel file: `Gels_Foams_URLs_Germany.xlsx`)
+2. Valid test user account credentials
+3. Browser: Chrome (latest version)
+4. Stable internet connection
+5. Access to https://www.gillette.de/
+
+---
+
+## Test Case 1: Browser Initialization and URL Navigation
+
+**Test Case ID:** TC-GF-001  
+**Test Objective:** Verify that the browser launches successfully and navigates to the product page
+
+### Test Steps:
+1. Open Chrome browser
+2. Maximize the browser window
+3. Navigate to the Gels and Foams product URL from the test data file
+4. Wait for the page to load completely (approximately 10 seconds)
+
+### Expected Results:
+- Browser should launch successfully
+- Browser window should be maximized
+- The product page URL should load without errors
+- Page should be fully rendered
+
+### Pass Criteria:
+✅ Browser initialized successfully  
+✅ Page loaded within acceptable time  
+✅ No console errors or broken elements
+
+---
+
+## Test Case 2: Accept Cookies Banner
+
+**Test Case ID:** TC-GF-002  
+**Test Objective:** Verify that the cookies acceptance banner appears and can be accepted
+
+### Test Steps:
+1. On the product page, locate the "Accept All Cookies" button
+2. Wait for the button to be clickable
+3. Click on the "Accept All Cookies" button
+4. Wait for 2 seconds for cookies to be processed
+
+### Expected Results:
+- Cookie banner should be visible on page load
+- "Accept All Cookies" button should be clickable
+- Cookie banner should disappear after clicking accept
+- Cookies should be stored in the browser
+
+### Pass Criteria:
+✅ Cookies accepted successfully  
+✅ Cookie banner is dismissed
+
+---
+
+## Test Case 3: URL Validation and Product Page Load
+
+**Test Case ID:** TC-GF-003  
+**Test Objective:** Verify that the correct product page is loaded and URL matches the expected URL
+
+### Test Steps:
+1. After accepting cookies, capture the current URL from the browser address bar
+2. Compare the current URL with the expected product URL from test data
+3. Verify that no redirects occurred to unexpected pages
+
+### Expected Results:
+- Current URL should match the input product URL
+- No unexpected redirects should occur
+- Page should display product details
+
+### Pass Criteria:
+✅ URL loaded successfully and matches input product URL  
+✅ Page is the correct product detail page
+
+---
+
+## Test Case 4: Product Name Verification
+
+**Test Case ID:** TC-GF-004  
+**Test Objective:** Verify that the product name is displayed correctly on the PDP
+
+### Test Steps:
+1. Locate the H1 tag on the product page
+2. Extract and record the product name text from the H1 tag
+3. Verify that the product name is not empty
+4. Verify that the product name is relevant to Gels and Foams category
+
+### Expected Results:
+- H1 tag should be present on the page
+- Product name should be clearly visible and readable
+- Product name should not be empty or null
+
+### Pass Criteria:
+✅ Product name is displayed correctly  
+✅ Product name matches the expected product from test data
+
+---
+
+## Test Case 5: Facebook Icon Functionality
+
+**Test Case ID:** TC-GF-005  
+**Test Objective:** Verify that the Facebook share icon works correctly and opens Facebook in a popup
+
+### Test Steps:
+1. Locate the Facebook icon on the product page (ID: `imgBtnFacebook`)
+2. Click on the Facebook icon
+3. Wait for 3 seconds for the popup window to load
+4. Switch to the newly opened popup window
+5. Verify that the Facebook page contains the expected URL reference: `https://www.gillette.de/`
+6. Close the Facebook popup using the close button (X icon)
+7. Switch back to the main product page window
+
+### Expected Results:
+- Facebook icon should be visible and clickable
+- A new popup window should open showing Facebook
+- The popup should contain reference to Gillette website
+- Close button should close the popup
+- Main window should remain active after closing popup
+
+### Pass Criteria:
+✅ Facebook Icon clicked successfully  
+✅ Facebook popup opened with correct content  
+✅ Popup closed successfully and returned to main window
+
+---
+
+## Test Case 6: Copy URL Functionality
+
+**Test Case ID:** TC-GF-006  
+**Test Objective:** Verify that the Copy URL functionality works correctly
+
+### Test Steps:
+1. Locate the Copy URL icon on the product page (ID: `imgBtncopyLink`)
+2. Click on the Copy URL icon
+3. Wait for 5 seconds for the popup to appear
+4. Switch to the popup window
+5. Locate the copy link element (ID: `copyLink`)
+6. Verify that the URL value in the copy field matches the current product page URL
+7. Close the Copy URL popup
+8. Switch back to the main window
+
+### Expected Results:
+- Copy URL icon should be visible and clickable
+- Copy URL popup should open
+- The URL in the copy field should match the current product page URL
+- Close button should dismiss the popup
+
+### Pass Criteria:
+✅ Copy URL Icon clicked successfully  
+✅ Copied URL matches with current product URL  
+✅ Popup closed successfully
+
+---
+
+## Test Case 7: Favorite Product Functionality
+
+**Test Case ID:** TC-GF-007  
+**Test Objective:** Verify that users can add products to favorites and view them in the favorites page
+
+### Test Steps:
+1. Locate the Favorite/Heart icon on the product page
+2. Click on the Favorite icon to add the product to favorites
+3. Click on the Favorite/Heart icon in the header to open favorites page in a new tab
+4. Switch to the newly opened favorites page tab
+5. Click on the "Products" menu in the favorites page
+6. Verify that the product name in the favorites list matches the original product name
+7. Close the favorites tab
+8. Return to the main product page
+
+### Expected Results:
+- Favorite icon should be clickable
+- Product should be added to favorites
+- Favorites page should open in a new tab
+- Added product should appear in the favorites list
+- Product name should match exactly
+
+### Pass Criteria:
+✅ Favorite Icon clicked successfully  
+✅ Product added to favorites  
+✅ Correct product displayed in favorites list  
+✅ Product name matches between PDP and favorites page
+
+---
+
+## Test Case 8: Buy Now Button Functionality
+
+**Test Case ID:** TC-GF-008  
+**Test Objective:** Verify that the Buy Now button opens the online retailers popup
+
+### Test Steps:
+1. Scroll to locate the "Buy Now" button on the product page
+2. Click on the "Buy Now" button
+3. Wait for 5 seconds for the popup to load
+4. Switch to the popup window
+5. Verify that the popup heading displays "Online-Händler" (Online Retailers)
+6. Close the Buy Now popup using the close button
+7. Switch back to the main product page window
+
+### Expected Results:
+- Buy Now button should be visible and clickable
+- Popup should open showing online retailers
+- Popup heading should display "Online-Händler"
+- Close button should dismiss the popup
+
+### Pass Criteria:
+✅ Buy Now Button clicked successfully  
+✅ Online retailers popup opened with correct heading  
+✅ Popup closed successfully and returned to main window
+
+---
+
+## Test Case 9: Feature Section Menu Navigation
+
+**Test Case ID:** TC-GF-009  
+**Test Objective:** Verify that clicking on the Feature Section menu navigates to the features section
+
+### Test Steps:
+1. Move mouse away from the header to avoid any hover menus
+2. Wait for any dropdown menus to disappear
+3. Locate the "Feature Section" button in the menu (first button in inner-tabs)
+4. Click on the "Feature Section" button
+5. Wait for 2 seconds for the page to scroll
+6. Verify that the page scrolls to the Feature section
+7. Verify that the Feature section content is displayed
+8. Record the first feature heading text
+
+### Expected Results:
+- Feature Section menu button should be clickable
+- Page should smoothly scroll to the Feature section
+- Feature section should be visible and displayed correctly
+- Feature heading should be readable
+
+### Pass Criteria:
+✅ Feature Section menu clicked successfully  
+✅ Page scrolled to Feature section  
+✅ Feature section content is displayed correctly
+
+---
+
+## Test Case 10: Review Section Menu Navigation
+
+**Test Case ID:** TC-GF-010  
+**Test Objective:** Verify that clicking on the Review Section menu navigates to the reviews section
+
+### Test Steps:
+1. Locate the "Review Section" button in the menu (second button in inner-tabs)
+2. Click on the "Review Section" button
+3. Wait for 4 seconds for the page to scroll
+4. Verify that the page scrolls to the Review section
+5. Verify that the "BEWERTUNG SCHREIBEN" (Write A Review) button is visible
+6. Record that the Review section is correctly displayed
+
+### Expected Results:
+- Review Section menu button should be clickable
+- Page should smoothly scroll to the Review section
+- Review section should be visible with "Write A Review" button
+- Review section should contain customer reviews (if available)
+
+### Pass Criteria:
+✅ Review Section menu clicked successfully  
+✅ Page scrolled to Review section  
+✅ "BEWERTUNG SCHREIBEN" button is visible
+
+---
+
+## Test Case 11: Write A Review Button Visibility
+
+**Test Case ID:** TC-GF-011  
+**Test Objective:** Verify that the Write A Review button is present and visible in the Review section
+
+### Test Steps:
+1. In the Review section, locate the "Write A Review" button
+2. Verify that the button is displayed
+3. Verify that the button text is readable
+4. Wait for 3 seconds
+
+### Expected Results:
+- Write A Review button should be visible
+- Button should be properly styled and readable
+- Button should be in the Review section
+
+### Pass Criteria:
+✅ Write A Review Button is displayed  
+✅ Button is located in the correct section
+
+---
+
+## Test Case 12: Write A Review Page Navigation
+
+**Test Case ID:** TC-GF-012  
+**Test Objective:** Verify that clicking Write A Review button navigates to the review form page
+
+### Test Steps:
+1. Click on the "Write A Review" button in the Review section
+2. Wait for the review form page to load
+3. Capture the current URL
+4. Locate the H1 tag or page title on the review page
+5. Extract the product name from the review page
+6. Compare the product name on the review page with the original product name from PDP
+
+### Expected Results:
+- Page should navigate to the Write A Review form
+- Review form page should load successfully
+- Product name on review page should match the PDP product name
+- Review form fields should be visible
+
+### Pass Criteria:
+✅ Write A Review Button clicked successfully  
+✅ Review form page loaded  
+✅ Product name on review page matches PDP product name
+
+---
+
+## Test Case 13: Cancel Button on Write A Review Page
+
+**Test Case ID:** TC-GF-013  
+**Test Objective:** Verify that clicking Cancel on the review page returns to the original product page
+
+### Test Steps:
+1. On the Write A Review form page, locate the "Cancel" button/link
+2. Click on the "Cancel" button
+3. Wait for 3 seconds for navigation
+4. Verify that the page returns to the original product detail page
+5. Compare the current URL with the original product URL
+
+### Expected Results:
+- Cancel button should be visible and clickable
+- Page should navigate back to the product detail page
+- Current URL should match the original product URL
+- No data should be saved or submitted
+
+### Pass Criteria:
+✅ Cancel Button clicked successfully  
+✅ Returned to product detail page  
+✅ URL matches original product URL
+
+---
+
+## Test Case 14: Related Products Section Verification
+
+**Test Case ID:** TC-GF-014  
+**Test Objective:** Verify that all three related products link correctly to their respective product pages
+
+### Test Steps:
+1. Scroll down to the "Related Products" section
+2. Verify that three product cards are displayed in the Related Products section
+3. **For Product 1 (Position 1):**
+   - Locate the first product card
+   - Record the product name shown on the card
+   - Record the product URL/link from the card
+   - Open the product link in a new browser tab
+   - Wait for 5 seconds for the page to load
+   - On the newly opened product page, locate the H1 tag
+   - Extract the product name from the H1 tag
+   - Compare the product name from the card with the product name on the PDP
+   - Close the new tab and return to the original product page
+4. **For Product 2 (Position 2):**
+   - Locate the second product card
+   - Record the product name shown on the card
+   - Record the product URL/link from the card
+   - Open the product link in a new browser tab
+   - Wait for 5 seconds for the page to load
+   - On the newly opened product page, locate the H1 tag
+   - Extract the product name from the H1 tag
+   - Compare the product name from the card with the product name on the PDP
+   - Close the new tab and return to the original product page
+5. **For Product 3 (Position 3):**
+   - Locate the third product card
+   - Record the product name shown on the card
+   - Record the product URL/link from the card
+   - Open the product link in a new browser tab
+   - Wait for 5 seconds for the page to load
+   - On the newly opened product page, locate the H1 tag
+   - Extract the product name from the H1 tag
+   - Compare the product name from the card with the product name on the PDP
+   - Close the new tab and return to the original product page
+
+### Expected Results:
+- Three related product cards should be displayed in the Related Products section
+- Each product card should display product name and image
+- Each product link should be clickable
+- Clicking each link should open the correct product page
+- Product name on each card should match the product name on the respective PDP
+- All three products should navigate correctly
+
+### Pass Criteria:
+✅ All three related product cards are displayed  
+✅ First product link opened successfully and name matches  
+✅ Second product link opened successfully and name matches  
+✅ Third product link opened successfully and name matches  
+✅ All product names match between cards and PDPs
+
+---
+
+## Test Case 15: Related Articles Section Verification
+
+**Test Case ID:** TC-GF-015  
+**Test Objective:** Verify that all three related articles link correctly to their respective article pages
+
+### Test Steps:
+1. Scroll down to the "Related Articles" section
+2. Verify that three article cards are displayed in the Related Articles section
+3. **For Article 1 (Position 1):**
+   - Locate the first article card
+   - Record the article title shown on the card
+   - Record the article URL/link from the card
+   - Open the article link in a new browser tab
+   - Wait for 3 seconds for the page to load
+   - On the newly opened article page, locate the H1 tag
+   - Extract the article title from the H1 tag
+   - Compare the article title from the card with the article title on the article page
+   - Close the new tab and return to the original product page
+4. **For Article 2 (Position 2):**
+   - Locate the second article card
+   - Record the article title shown on the card
+   - Record the article URL/link from the card
+   - Open the article link in a new browser tab
+   - Wait for 3 seconds for the page to load
+   - On the newly opened article page, locate the H1 tag
+   - Extract the article title from the H1 tag
+   - Compare the article title from the card with the article title on the article page
+   - Close the new tab and return to the original product page
+5. **For Article 3 (Position 3):**
+   - Locate the third article card
+   - Record the article title shown on the card
+   - Record the article URL/link from the card
+   - Open the article link in a new browser tab
+   - Wait for 3 seconds for the page to load
+   - On the newly opened article page, locate the H1 tag
+   - Extract the article title from the H1 tag
+   - Compare the article title from the card with the article title on the article page
+   - Close the new tab and return to the original product page
+
+### Expected Results:
+- Three related article cards should be displayed in the Related Articles section
+- Each article card should display article title and image
+- Each article link should be clickable
+- Clicking each link should open the correct article page
+- Article title on each card should match the article title on the respective article page
+- All three articles should navigate correctly
+
+### Pass Criteria:
+✅ All three related article cards are displayed  
+✅ First article link opened successfully and title matches  
+✅ Second article link opened successfully and title matches  
+✅ Third article link opened successfully and title matches  
+✅ All article titles match between cards and article pages
+
+---

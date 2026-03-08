@@ -275,3 +275,24 @@ export function getEnvironment(testInfo) {
     return 'prod'; // default
   }
 }
+
+
+
+/**
+ * Get random item from array
+ * @param {Array} array - Array to pick from
+ * @returns {*} Random item from array
+ */
+export function getRandomItem(array) {
+  if (!array || array.length === 0) return null;
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+/**
+ * Get current year minus specified years
+ * @param {number} years - Number of years to subtract from current year
+ * @returns {number} Year value
+ */
+export function getYearMinusYears(years = 22) {
+  return new Date().getFullYear() - years;
+}

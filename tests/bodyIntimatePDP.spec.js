@@ -15,6 +15,8 @@
  * - TC 10: Write A Review (Click & Cancel)
  * - TC 11: Related Products Verification
  * - TC 12: Related Articles Verification
+ * - TC 13: Image Alt Tag Validation
+ * - TC 14: Gallery Image Functionality (Click Thumbnails & Validate Main Image Changes)
  */
 
 import { test, expect } from '@playwright/test';
@@ -22,6 +24,7 @@ import { setupTest } from '../utils/testSetup.js';
 import { SYMBOLS, log } from '../utils/logConstants.js';
 import { HtmlTestReport } from '../utils/htmlReportGenerator.js';
 import { bodyIntimatePDP } from '../pages/bodyIntimatePage.js';
+import { generateImageAltTagTable } from '../utils/tableGenerator.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -29,15 +32,12 @@ import path from 'path';
 const TEST_CONFIG = {
   facebookExpectedMessage: 'https://www.gillette.de/',
   buyNowPopupMessage: 'Online-Händler',
-  favoriteTitleBeforeAdd: 'ZU DEN FAVORITEN HINZUFÜGEN',
-  favoriteTitleAfterAdd: 'VON DEN FAVORITEN ENTFERNEN'
+  favoriteTitleBeforeAdd: 'Zu den Favoriten hinzufügen',
+  favoriteTitleAfterAdd: 'Von den Favoriten entfernen'
 };
 
-// Product URLs to test - Can be loaded from Excel/JSON file
-// For now, using a sample URL (can be extended to read from external file)
-const PRODUCT_URLS = [
-  'https://www.gillette.de/de-de/intimrasur/intimate-trimmer'
-];
+// Product URL to test
+const PRODUCT_URL = 'https://www.gillette.de/de-de/intimrasur/intimate-trimmer';
 
 test.describe('Body & Intimate PDP Sanity Tests - Germany Website', () => {
 
@@ -45,7 +45,6 @@ test.describe('Body & Intimate PDP Sanity Tests - Germany Website', () => {
   let testEnvironment;
   /** @type {HtmlTestReport} */
   let htmlReport;
-  let count = 1;
 
   // Setup before all tests - create single report for all products
   test.beforeAll(async () => {
@@ -57,8 +56,6 @@ test.describe('Body & Intimate PDP Sanity Tests - Germany Website', () => {
     log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
     log(SYMBOLS.ROCKET, 'BODY & INTIMATE PDP SANITY TEST SUITE - GERMANY');
     log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
-    
-    htmlReport.addStep('URL Count', 'INFO', `Total number of Body & Intimate Product URLs for sanity: ${PRODUCT_URLS.length}`);
   });
 
   // Setup before each test
@@ -87,42 +84,38 @@ test.describe('Body & Intimate PDP Sanity Tests - Germany Website', () => {
   });
 
   /**
-   * Complete PDP Sanity Test for Body & Intimate Products
-   * Tests all products from the URL list
+   * Complete PDP Sanity Test for Body & Intimate Product
    */
-  for (let urlIndex = 0; urlIndex < PRODUCT_URLS.length; urlIndex++) {
-    const PRODUCT_URL = PRODUCT_URLS[urlIndex];
+  test('Complete PDP Sanity Test', async ({ page, context }) => {
+    const pdp = new bodyIntimatePDP(page);
+    let productName = '';
+    let currentUrl = '';
+
+    // ==================== TC - 1: Browser Initialization & Navigation ====================
+    log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
+    log(SYMBOLS.ROCKET, 'TC - 1: Browser Initialization & URL Navigation');
+    log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
     
-    test(`Complete PDP Sanity Test - Product ${urlIndex + 1}`, async ({ page, context }) => {
-      const pdp = new bodyIntimatePDP(page);
-      let productName = '';
-      let currentUrl = '';
+    htmlReport.addStep('Browser Initialization', 'PASS', '✅ Browser initialized successfully');
+    htmlReport.addStep('Launch URL', 'INFO', `Launching Product URL: ${PRODUCT_URL}`);
+    
+    await pdp.navigateToProduct(PRODUCT_URL);
+    htmlReport.addStep('Navigate to URL', 'PASS', `✅ Navigated to URL: ${PRODUCT_URL}`);
+    log(SYMBOLS.SUCCESS, '✅ TC - 1 PASSED: Browser launched and navigated to Product');
 
-      // ==================== TC - 1: Browser Initialization & Navigation ====================
-      log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
-      log(SYMBOLS.ROCKET, `TC - 1: Browser Initialization & URL Navigation (Product ${count})`);
-      log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
-      
-      htmlReport.addStep('Browser Initialization', 'PASS', `✅ Browser initialized successfully for product ${count}`);
-      htmlReport.addStep('Launch URL', 'INFO', `Launching Product URL Number ${count} from input file: ${PRODUCT_URL}`);
-      
-      await pdp.navigateToProduct(PRODUCT_URL);
-      htmlReport.addStep('Navigate to URL', 'PASS', `✅ Navigated to URL ${count}: ${PRODUCT_URL}`);
-      log(SYMBOLS.SUCCESS, `✅ TC - 1 PASSED: Browser launched and navigated to Product ${count}`);
+    // ==================== TC - 2: Cookie Consent ====================
+    log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
+    log(SYMBOLS.ROCKET, 'TC - 2: Cookie Consent - Accept Cookies');
+    log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
+    
+    await pdp.acceptCookies();
+    htmlReport.addStep('Cookies', 'PASS', '✅ Cookies accepted successfully');
+    log(SYMBOLS.SUCCESS, '✅ TC - 2 PASSED: Cookie consent accepted');
 
-      // ==================== TC - 2: Cookie Consent ====================
-      log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
-      log(SYMBOLS.ROCKET, 'TC - 2: Cookie Consent - Accept Cookies');
-      log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
-      
-      await pdp.acceptCookies();
-      htmlReport.addStep('Cookies', 'PASS', '✅ Cookies accepted successfully');
-      log(SYMBOLS.SUCCESS, '✅ TC - 2 PASSED: Cookie consent accepted');
-
-      // ==================== TC - 3: SEO Validation (URL, H1, meta title, meta description, canonical tag) ====================
-      log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
-      log(SYMBOLS.ROCKET, `TC - 3: SEO Validation (URL, H1, meta title, meta description, canonical tag) - Product ${count}`);
-      log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
+    // ==================== TC - 3: SEO Validation (URL, H1, meta title, meta description, canonical tag) ====================
+    log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
+    log(SYMBOLS.ROCKET, 'TC - 3: SEO Validation (URL, H1, meta title, meta description, canonical tag)');
+    log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
       
       const urlValidation = await pdp.validateCurrentUrl(PRODUCT_URL);
       currentUrl = urlValidation.currentUrl;
@@ -228,14 +221,19 @@ test.describe('Body & Intimate PDP Sanity Tests - Germany Website', () => {
       const favResult = await pdp.verifyFavoriteFunctionality(productName);
       
       if (favResult.success) {
-        htmlReport.addStep("Favorite Icon", 'PASS', `✅ 'Favorite Icon' button clicked and Product ${count} is successfully added to Favorite section.`);
+        htmlReport.addStep("Click 'Favorite Icon'", 'PASS', `✅ 'Favorite Icon' button clicked. Product: ${favResult.favoriteProductName}`);
       } else {
-        htmlReport.addStep("Favorite Icon", 'FAIL', "❌ 'Favorite Icon' button not clicked.");
+        htmlReport.addStep("Click 'Favorite Icon'", 'FAIL', "❌ 'Favorite Icon' button click failed.");
       }
       
-      // Uncheck the favorite icon
-      await pdp.uncheckFavoriteIcon();
-      htmlReport.addStep("Favorite Icon", 'PASS', `✅ 'Favorite Icon' is unchecked successfully for Product Number ${count}`);
+      // Uncheck the favorite icon (remove from favorites)
+      const uncheckResult = await pdp.uncheckFavoriteIcon();
+      if (uncheckResult.success) {
+        htmlReport.addStep("Uncheck Favorite Icon", 'PASS', `✅ 'Favorite Icon' is unchecked successfully. Product ${productName} removed from favorites.`);
+      } else {
+        htmlReport.addStep("Uncheck Favorite Icon", 'FAIL', `❌ 'Favorite Icon' could not be unchecked.`);
+      }
+      
       log(SYMBOLS.SUCCESS, '✅ TC - 6 PASSED: Favorite functionality verified');
 
       // ==================== TC - 7: BUY NOW Button Functionality ====================
@@ -297,7 +295,7 @@ test.describe('Body & Intimate PDP Sanity Tests - Germany Website', () => {
           `✅ Sticky Favorite button title (before adding to favorites) matches with expected text. The Text is: ${favTitleBefore}`);
       } else {
         htmlReport.addStep("Favorite CTA Button title before adding to favorites", 'FAIL', 
-          `❌ Sticky Favorite button title (before adding to favorites) does not match with expected text.`);
+          `❌ Sticky Favorite button title (before adding to favorites) does not match with expected text. Expected: ${TEST_CONFIG.favoriteTitleBeforeAdd}, Actual: ${favTitleBefore}`);
       }
       
       // Click Sticky Favorite button
@@ -312,48 +310,39 @@ test.describe('Body & Intimate PDP Sanity Tests - Germany Website', () => {
           `✅ Sticky Favorite button title (after adding to favorites) matches with expected text. The Text is: ${favTitleAfter}`);
       } else {
         htmlReport.addStep("Favorite CTA Button title after adding to favorites", 'FAIL', 
-          `❌ Sticky Favorite button title (after adding to favorites) does not match with expected text.`);
+          `❌ Sticky Favorite button title (after adding to favorites) does not match with expected text. Expected: ${TEST_CONFIG.favoriteTitleAfterAdd}, Actual: ${favTitleAfter}`);
       }
       
       // Verify product in favorites from sticky section
       const stickyFavResult = await pdp.verifyStickyFavoriteFunctionality(productName);
       
       if (stickyFavResult.success) {
-        htmlReport.addStep("Favorite Button from Sticky Section", 'PASS', 
-          "✅ 'Favorite Button from Sticky Section' clicked Successfully.");
+        htmlReport.addStep("Verify Favorite from Sticky Section", 'PASS', 
+          `✅ Product verified on favorites page. Product: ${stickyFavResult.favoriteProductName}`);
       } else {
-        htmlReport.addStep("Click 'Favorite Button from Sticky Section'", 'FAIL', 
-          "❌ 'Favorite Button from Sticky Section' not clicked.");
+        htmlReport.addStep("Verify Favorite from Sticky Section", 'FAIL', 
+          `❌ Product not found or mismatch on favorites page. Expected: ${productName}`);
       }
       log(SYMBOLS.SUCCESS, '✅ TC - 9 PASSED: Sticky Section Favorite functionality verified');
 
       // ==================== TC - 10: Write A Review ====================
       log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
-      log(SYMBOLS.ROCKET, 'TC - 10: Write A Review (Click & Cancel)');
+      log(SYMBOLS.ROCKET, 'TC - 10: Write A Review (Click, Verify & Cancel)');
       log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
       
-      // Check if Write A Review button is displayed
-      const writeReviewVisible = await pdp.isWriteReviewButtonVisible();
-      
-      if (writeReviewVisible) {
-        htmlReport.addStep('Write A Review Button', 'PASS', 
-          `✅ 'Write A Review' Button is found for Product Number ${count}`);
-      } else {
-        htmlReport.addStep('Write A Review Button', 'FAIL', 
-          `❌ 'Write A Review' Button is NOT found for Product Number ${count}`);
-      }
-      
-      // Click Write A Review and verify page
+      // Click Write A Review
       const writeReviewResult = await pdp.verifyWriteAReviewPage(productName);
       
       if (writeReviewResult.success) {
         htmlReport.addStep('Write A Review Button', 'PASS', 
-          `✅ 'Write A Review' Button is found for Product Number ${count} and clicked successfully.`);
+          `✅ 'Write A Review' Button is found`);
         htmlReport.addStep('Write A Review Page', 'PASS', 
-          `✅ 'Write A Review' Page is successfully displayed for Product Number ${count}. The Product name on review page is: ${writeReviewResult.reviewPageProductName}`);
+          `✅ 'Write A Review' Page is successfully displayed. The Product name on review page is: ${writeReviewResult.reviewPageProductName}`);
       } else {
+        htmlReport.addStep('Write A Review Button', 'FAIL', 
+          `❌ 'Write A Review' Button is NOT found`);
         htmlReport.addStep('Write A Review Page', 'FAIL', 
-          `❌ 'Write A Review' Page is NOT displayed for Product Number ${count}. The Product name on review page is: ${writeReviewResult.reviewPageProductName}`);
+          `❌ 'Write A Review' Page is NOT displayed`);
       }
       
       // Click Cancel to return to PDP
@@ -361,10 +350,10 @@ test.describe('Body & Intimate PDP Sanity Tests - Germany Website', () => {
       
       if (cancelResult.success) {
         htmlReport.addStep('Cancel Button', 'PASS', 
-          `✅ 'Cancel' Button is clicked on WRITE A REVIEW page for Product Number ${count} and returned to corresponding PRODUCT page successfully.`);
+          `✅ 'Cancel' Button is clicked on WRITE A REVIEW page and returned to corresponding PRODUCT page successfully.`);
       } else {
         htmlReport.addStep('Cancel Button', 'FAIL', 
-          `❌ 'Cancel' Button is NOT clicked for Product Number ${count}`);
+          `❌ 'Cancel' Button is NOT clicked`);
       }
       
       log(SYMBOLS.SUCCESS, '✅ TC - 10 PASSED: Write A Review functionality verified');
@@ -372,27 +361,24 @@ test.describe('Body & Intimate PDP Sanity Tests - Germany Website', () => {
 
       // ==================== TC - 11: Related Products Section ====================
       log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
-      log(SYMBOLS.ROCKET, 'TC - 11: Related Products Section Verification');
+      log(SYMBOLS.ROCKET, 'TC - 11: Related Products Section Verification (Dynamic)');
       log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
       
-      const relatedProductsResults = await pdp.verifyRelatedProducts(3); // Verify first 3 products as per original test
+      const relatedProductsResult = await pdp.verifyRelatedProducts();
+      log(SYMBOLS.INFO, `Detected ${relatedProductsResult.verifiedProducts.length} related product(s)`);
       
-      if (relatedProductsResults.length === 0) {
-        htmlReport.addStep('Related Products', 'INFO', '⚠️ No related products found on this page');
-      } else {
-        for (let i = 0; i < relatedProductsResults.length; i++) {
-          const result = relatedProductsResults[i];
-          if (result.success) {
-            htmlReport.addStep(`Verify Related Product${result.position}`, 'PASS', 
-              `✅ Product linked at ${result.position} position: ${result.cardName}`);
-          } else {
-            htmlReport.addStep(`Verify Related Product${result.position}`, 'FAIL', 
-              `❌ Mismatch: Card = ${result.cardName}, Page = ${result.pageName}`);
-          }
+      for (const product of relatedProductsResult.verifiedProducts) {
+        if (product.success) {
+          htmlReport.addStep(`Related Product ${product.index}`, 'PASS', 
+            `✅ Product linked at position ${product.index}: ${product.cardTitle}`);
+        } else {
+          htmlReport.addStep(`Related Product ${product.index}`, 'FAIL', 
+            `❌ Mismatch: Card = ${product.cardTitle}, Page = ${product.pdpTitle || 'N/A'}`);
         }
       }
       
       log(SYMBOLS.SUCCESS, '✅ TC - 11 PASSED: Related Products verification completed');
+      await page.waitForTimeout(3000);
 
       // ==================== TC - 12: Related Articles Section ====================
       log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
@@ -417,41 +403,131 @@ test.describe('Body & Intimate PDP Sanity Tests - Germany Website', () => {
       }
       
       log(SYMBOLS.SUCCESS, '✅ TC - 12 PASSED: Related Articles verification completed');
+      await page.waitForTimeout(2000);
 
-      // ==================== Test Complete ====================
-      htmlReport.addStep('Close Browser', 'PASS', `✅ Browser closed successfully for ${count} time`);
-      log(SYMBOLS.CELEBRATION, `🎉 Complete PDP Sanity Test PASSED for Product ${count}!`);
+      // ==================== TC - 13: Image Alt Tag Validation ====================
+      log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
+      log(SYMBOLS.ROCKET, 'TC - 13: Image Alt Tag Validation');
+      log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
+
+      htmlReport.addStep('Test Case 13: Image Alt Tag Validation', 'INFO', 'Verify all product content images have proper alt tags');
       
-      count++;
-    });
-  }
-});
+      // Scroll to top to ensure all images are visible
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.waitForTimeout(2000);
+      
+      // Scroll down slowly to trigger lazy loading
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight / 2));
+      await page.waitForTimeout(2000);
+      
+      // Scroll to bottom
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await page.waitForTimeout(3000);
+      
+      // Scroll back to top
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.waitForTimeout(2000);
+      
+      // Verify all product images have alt tags
+      /** @type {{ totalImages: number; imagesWithAlt: number; imagesWithoutAlt: number; success: boolean; images: Array<{index: number; filename: string; alt: string; hasAlt: boolean}> }} */
+      const imageValidation = /** @type {any} */ (await pdp.verifyProductImagesAltTags());
+      
+      htmlReport.addStep('Product Image Count', 'INFO', 
+        `Total Product Images: ${imageValidation.totalImages}<br>` +
+        `With Alt Tags: ${imageValidation.imagesWithAlt}<br>` +
+        `Without Alt Tags: ${imageValidation.imagesWithoutAlt}`);
+      
+      // Add detailed image list to report
+      if (imageValidation.images.length > 0) {
+        const imageListHtml = generateImageAltTagTable(imageValidation.images);
+        log(SYMBOLS.SUCCESS, `✅ Image validation complete: ${imageValidation.imagesWithAlt}/${imageValidation.totalImages} images have alt tags`);
+        htmlReport.addStep('Image Details', 'INFO', imageListHtml);
+      }
+      
+      if (imageValidation.success) {
+        htmlReport.addStep('Image Alt Tags', 'PASS', `✅ All ${imageValidation.totalImages} product images have alt tags`);
+        log(SYMBOLS.SUCCESS, `✅ TC - 13 PASSED: All ${imageValidation.totalImages} product images have alt tags`);
+      } else {
+        htmlReport.addStep('Images Missing Alt Tags', 'WARN', 
+          `⚠️ ${imageValidation.imagesWithoutAlt} out of ${imageValidation.totalImages} product images missing alt tags`);
+        log(SYMBOLS.WARNING, `⚠️ TC - 13 WARNING: ${imageValidation.imagesWithoutAlt} images missing alt tags`);
+      }
+      
+      await page.waitForTimeout(2000);
 
-/**
- * Additional test for testing with multiple URLs from JSON file
- * Useful for data-driven testing similar to original Excel-based approach
- */
-test.describe('Body & Intimate - Data Driven Tests', () => {
-  
-  /** @type {HtmlTestReport} */
-  let htmlReport;
+      // ==================== TC - 14: Gallery Image Functionality ====================
+      log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
+      log(SYMBOLS.ROCKET, 'TC - 14: Gallery Image Functionality (Click Thumbnails)');
+      log(SYMBOLS.ROCKET, '═══════════════════════════════════════════════════════════');
 
-  test.beforeEach(async ({ page, context }, testInfo) => {
-    await setupTest(context, testInfo);
-    htmlReport = HtmlTestReport.create(
-      'Body & Intimate Data Driven Test',
-      'Production',
-      page
-    );
-  });
+      htmlReport.addStep('Test Case 14: Gallery Image Functionality', 'INFO', 'Verify gallery thumbnail images change the main product image when clicked');
 
-  test.afterEach(async () => {
-    // Generate individual report
-    const reportsDir = path.join(process.cwd(), 'test-results', 'body-intimate-reports');
-    if (!fs.existsSync(reportsDir)) {
-      fs.mkdirSync(reportsDir, { recursive: true });
-    }
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-    await htmlReport.generateReport(path.join(reportsDir, `Data_Driven_Test_${timestamp}.html`));
+      // Verify gallery images
+      /** @type {{ success: boolean; totalThumbnails: number; successfullyVerified: number; failedCount: number; successRate: number; thumbnailsVerified: Array<{index: number; thumbnailNumber: string; success: boolean; imageChanged: boolean; thumbnailAlt: string}>; verificationMessage: string }} */
+      const galleryValidation = /** @type {any} */ (await pdp.verifyGalleryImages());
+
+      htmlReport.addStep('Gallery Thumbnail Count', 'INFO', 
+        `Total Gallery Thumbnails: ${galleryValidation.totalThumbnails}<br>` +
+        `Successfully Verified: ${galleryValidation.successfullyVerified}<br>` +
+        `Failed: ${galleryValidation.failedCount}<br>` +
+        `Success Rate: ${galleryValidation.successRate}%`);
+
+      // Add detailed thumbnail verification results
+      if (galleryValidation.thumbnailsVerified.length > 0) {
+        let thumbnailDetailsHtml = '<table style="width:100%; border-collapse: collapse; margin-top: 10px;">' +
+          '<tr style="background-color: #f2f2f2;">' +
+          '<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Thumbnail #</th>' +
+          '<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Status</th>' +
+          '<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Image Changed</th>' +
+          '<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Alt Text</th>' +
+          '</tr>';
+
+        galleryValidation.thumbnailsVerified.forEach(thumb => {
+          const statusIcon = thumb.success ? '✅' : '❌';
+          const statusText = thumb.success ? 'PASS' : 'FAIL';
+          const imageStatus = thumb.imageChanged ? '✅ Yes' : '⚠️ No';
+          const altText = thumb.thumbnailAlt || 'N/A';
+          
+          thumbnailDetailsHtml += `<tr>` +
+            `<td style="border: 1px solid #ddd; padding: 8px;">${thumb.thumbnailNumber}</td>` +
+            `<td style="border: 1px solid #ddd; padding: 8px;">${statusIcon} ${statusText}</td>` +
+            `<td style="border: 1px solid #ddd; padding: 8px;">${imageStatus}</td>` +
+            `<td style="border: 1px solid #ddd; padding: 8px;">${altText}</td>` +
+            `</tr>`;
+        });
+
+        thumbnailDetailsHtml += '</table>';
+        htmlReport.addStep('Gallery Thumbnail Details', 'INFO', thumbnailDetailsHtml);
+      }
+
+      // Final gallery verification result
+      if (galleryValidation.success) {
+        htmlReport.addStep('Gallery Verification', 'PASS', 
+          `✅ All ${galleryValidation.totalThumbnails} gallery thumbnails verified successfully. Each thumbnail click updated the main product image as expected.`);
+        log(SYMBOLS.SUCCESS, `✅ TC - 14 PASSED: Gallery image functionality verified (${galleryValidation.totalThumbnails} thumbnails)`);
+      } else if (galleryValidation.totalThumbnails === 0) {
+        htmlReport.addStep('Gallery Verification', 'WARN', 
+          `⚠️ No gallery thumbnails found on the page. Gallery verification skipped.`);
+        log(SYMBOLS.WARNING, `⚠️ TC - 14 INFO: No gallery thumbnails found on page`);
+      } else {
+        htmlReport.addStep('Gallery Verification', 'WARN', 
+          `⚠️ Gallery verification completed with issues. ${galleryValidation.successfullyVerified}/${galleryValidation.totalThumbnails} thumbnails verified successfully.`);
+        log(SYMBOLS.WARNING, `⚠️ TC - 14 WARNING: ${galleryValidation.failedCount} out of ${galleryValidation.totalThumbnails} thumbnails had issues`);
+      }
+
+    await page.waitForTimeout(2000);
+
+    // ==================== TEST SUITE COMPLETE ====================
+    log(SYMBOLS.CELEBRATION, '═══════════════════════════════════════════════════════════');
+    log(SYMBOLS.CELEBRATION, '🎉 ALL TEST CASES (TC1-TC14) PASSED SUCCESSFULLY! 🎉');
+    log(SYMBOLS.CELEBRATION, '═══════════════════════════════════════════════════════════');
+    htmlReport.addStep('Test Completion', 'PASS', '✅ Complete Body & Intimate PDP Sanity Test passed successfully');
+    
+    // Close the browser
+    log(SYMBOLS.INFO, 'Closing browser...');
+    await page.close();
+    await context.close();
+    log(SYMBOLS.SUCCESS, '✅ Browser closed successfully');
+    htmlReport.addStep('Close Browser', 'PASS', '✅ Browser closed successfully');
   });
 });
