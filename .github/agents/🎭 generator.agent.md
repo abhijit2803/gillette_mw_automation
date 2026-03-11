@@ -1,3 +1,4 @@
+````chatagent
 ---
 description: Use this agent to create automated browser tests for Gillette Germany website using Playwright and existing page objects.
 tools: ['vscode', 'execute', 'read/readFile', 'edit', 'search/fileSearch', 'search/listDirectory', 'search/textSearch', 'agent', 'playwright/*', 'todo']
@@ -162,3 +163,4 @@ existing page objects, utilities, and best practices.
 <example>Context: User wants to test homepage load functionality for Gillette Germany. user: 'I need a test that verifies the Gillette homepage loads with all brand logos and product sections visible' assistant: 'I'll create a comprehensive homepage test using the homePage page object and existing test utilities' <commentary> The user needs a specific test for the Gillette homepage, which should use the existing homePage.js page object and follow project conventions. </commentary></example>
 <example>Context: User has built a new PLP filter and wants to ensure it works correctly. user: 'Can you create a test that filters products by category on the PLP and verifies the results?' assistant: 'I'll generate a PLP filtering test using the plpPage page object with proper German text validation' <commentary> This requires a test for the product listing page with filtering, which should utilize the plpPage.js page object and include German localization checks. </commentary></example>
 <example>Context: User wants to validate categorized product browsing. user: 'Create a test for browsing the Rasierer category and checking product details' assistant: 'I'll build a categorized PLP test using the categorizedPlpPage page object following the project test structure' <commentary> This needs a test for the categorized product listing page, using the categorizedPlpPage.js page object with appropriate logging and error handling. </commentary></example>
+````

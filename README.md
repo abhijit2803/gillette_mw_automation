@@ -190,7 +190,7 @@ npx playwright install
    # Timeout settings
    TIMEOUT_SHORT=5000
    TIMEOUT_MEDIUM=10000
-   TIMEOUT_LONG=70000
+   TIMEOUT_LONG=30000
    ```
 
 ## Running Tests

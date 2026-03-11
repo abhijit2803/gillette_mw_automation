@@ -1,35 +1,4 @@
 {
-	"inputs": [
-		{
-			"id": "playwright-tests",
-			"name": "Playwright Tests",
-			"description": "Playwright testing framework context"
-		}
-	],
-	"servers": {
-		"generator-agent": {
-			"command": "node",
-			"args": ["--version"],
-			"disabled": false,
-			"alwaysAllow": true,
-			"autoApprove": ["resources/read", "resources/list"],
-			"description": "Generate Playwright test cases and page objects based on requirements"
-		},
-		"planner-agent": {
-			"command": "node",
-			"args": ["--version"],
-			"disabled": false,
-			"alwaysAllow": true,
-			"autoApprove": ["resources/read", "resources/list"],
-			"description": "Plan test strategy, structure, and execution flow for Playwright automation"
-		},
-		"helper-agent": {
-			"command": "node",
-			"args": ["--version"],
-			"disabled": false,
-			"alwaysAllow": true,
-			"autoApprove": ["resources/read", "resources/list"],
-			"description": "Provide helpers and utilities for Playwright test implementation"
-		}
-	}
+	"inputs": [],
+	"servers": {}
 }

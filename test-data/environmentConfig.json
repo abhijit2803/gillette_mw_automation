@@ -1,22 +1,12 @@
 {
   "environments": {
     "qa": {
-      "baseUrl": "https://stage-us.braun.com/en-us", 
-      "apiUrl": "https://api-qa.braun.com"
+      "baseUrl": "https://stage.gillette.de/de-de", 
+      "apiUrl": "https://api-qa.gillette.de"
     },
     "prod": {
-      "baseUrl": "https://us.braun.com/en-us",
-      "apiUrl": "https://api.braun.com"
-    },
-    "gillette-dev": {
-      "baseUrl": "https://dev.gillette.fr/fr-fr",
-      "apiUrl": "https://api-dev.gillette.fr",
-      "requiresAuth": true
-    },
-    "gillette-stage": {
-      "baseUrl": "https://stage.gillette.eu/en-eu",
-      "apiUrl": "https://api-stage.gillette.eu",
-      "requiresAuth": false
+      "baseUrl": "https://www.gillette.de/de-de",
+      "apiUrl": "https://api.gillette.de"
     }
   }
 }
