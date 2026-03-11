@@ -88,9 +88,10 @@ export default defineConfig({
     },
     {
       name: 'Homepage-Tests',
-      testMatch: ['**/homepage.spec.js'],
+      testMatch: ['**/homepage.spec.js', '**/homepage-*.spec.js'],
       outputDir: `./test-results/homepage-artifacts/${runTimestamp}`,
       use: { 
+        ...devices['Desktop Chrome'],
         baseURL: 'https://www.gillette.de/de-de',
         browserName: 'chromium',
         channel: 'chrome',
@@ -121,6 +122,35 @@ export default defineConfig({
       retries: 0
     },
     {
+      name: 'chromium',
+      testMatch: ['**/homepage.spec.js', '**/homepage-*.spec.js'],
+      outputDir: `./test-results/chromium-artifacts/${runTimestamp}`,
+      use: { 
+        baseURL: 'https://www.gillette.de/de-de',
+        browserName: 'chromium',
+        channel: 'chrome',
+        headless: false,
+        viewport: null, // Required for --start-maximized to work
+        slowMo: 500,
+        actionTimeout: 30000,
+        navigationTimeout: 45000,
+        trace: 'retain-on-failure',
+        screenshot: 'only-on-failure',
+        video: 'retain-on-failure',
+        launchOptions: {
+          args: [
+            '--start-maximized',
+            '--disable-blink-features=AutomationControlled',
+            '--window-position=0,0',
+            '--kiosk-printing'
+          ],
+          ignoreDefaultArgs: ['--enable-automation']
+        }
+      },
+      timeout: 180000,
+      retries: 0
+    },
+    {
       name: 'PLP-Tests',
       testMatch: ['**/plp.spec.js'],
       outputDir: `./test-results/plp-artifacts/${runTimestamp}`,
@@ -136,6 +166,7 @@ export default defineConfig({
         trace: 'retain-on-failure',
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
+        viewport: null, // Start maximized
         launchOptions: {
           args: ['--start-maximized', '--disable-blink-features=AutomationControlled']
         }
@@ -159,16 +190,9 @@ export default defineConfig({
         trace: 'on',
         screenshot: 'on',
         video: 'on',
+        viewport: null, // Start maximized
         launchOptions: {
-          args: [
-            '--start-maximized',
-            '--disable-blink-features=AutomationControlled',
-            '--window-position=0,0',
-            '--window-size=1920,1080',
-            '--force-device-scale-factor=1',
-            '--high-dpi-support=1',
-            '--disable-infobars'
-          ]
+          args: ['--start-maximized']
         }
       },
       timeout: 180000,

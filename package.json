@@ -18,14 +18,9 @@
     "test:sanity:qa": "playwright test tests/sanity.spec.js --config=configs/qa.config.js",
     "test:sanity:prod": "playwright test tests/sanity.spec.js --config=configs/prod.config.js",
     "sanity": "node scripts/run-sanity.js",
-    "test:homepage": "playwright test tests/homepage-*.spec.js --config=playwright.homepage.config.js",
-    "test:homepage:headed": "playwright test tests/homepage-*.spec.js --config=playwright.homepage.config.js --headed",
-    "test:homepage:debug": "playwright test tests/homepage-*.spec.js --config=playwright.homepage.config.js --debug",
-    "test:homepage:navigation": "playwright test tests/homepage-navigation.spec.js --config=playwright.homepage.config.js",
-    "test:homepage:menus": "playwright test tests/homepage-menus.spec.js --config=playwright.homepage.config.js",
-    "test:homepage:search": "playwright test tests/homepage-search.spec.js --config=playwright.homepage.config.js",
-    "test:homepage:content": "playwright test tests/homepage-content.spec.js --config=playwright.homepage.config.js",
-    "test:homepage:footer": "playwright test tests/homepage-footer-seo.spec.js --config=playwright.homepage.config.js",
+    "test:homepage": "playwright test --project=Homepage-Tests",
+    "test:homepage:headed": "playwright test --project=Homepage-Tests --headed",
+    "test:homepage:debug": "playwright test --project=Homepage-Tests --debug",
     "report": "playwright show-report"
   },
   "keywords": [

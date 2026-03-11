@@ -99,9 +99,7 @@ test.describe.serial('Homepage Regression Tests', () => {
   test.beforeAll(async ({ browser }) => {
     // Create a single browser context for all tests with cookie persistence
     context = await browser.newContext({
-      viewport: { width: 1366, height: 768 },
-      screen: { width: 1366, height: 768 },
-      deviceScaleFactor: 1,
+      viewport: null, // Use null for full screen mode
       isMobile: false,
       hasTouch: false,
       // Accept language for German site
@@ -112,6 +110,19 @@ test.describe.serial('Homepage Regression Tests', () => {
     
     page = await context.newPage();
     homePageObj = new homePage(page);
+    
+    // Maximize window using Chrome DevTools Protocol
+    try {
+      const client = await page.context().newCDPSession(page);
+      const { windowId } = await client.send('Browser.getWindowForTarget');
+      await client.send('Browser.setWindowBounds', {
+        windowId,
+        bounds: { windowState: 'maximized' }
+      });
+      await client.detach();
+    } catch (error) {
+      console.log('CDP maximization not available:', error.message);
+    }
     
     // CRITICAL: Inject script to block cookie banner from ever appearing
     await page.addInitScript(() => {
@@ -137,33 +148,25 @@ test.describe.serial('Homepage Regression Tests', () => {
       }
     });
     
-    // Lock viewport size BEFORE navigation to prevent any fluctuations
-    await page.setViewportSize({ width: 1366, height: 768 });
-    
-    // Prevent page from changing viewport
-    await page.addInitScript(() => {
-      // Lock the viewport and prevent responsive behavior
-      Object.defineProperty(window, 'innerWidth', { value: 1366, writable: false });
-      Object.defineProperty(window, 'innerHeight', { value: 768, writable: false });
-      Object.defineProperty(window, 'outerWidth', { value: 1366, writable: false });
-      Object.defineProperty(window, 'outerHeight', { value: 768, writable: false });
-      
-      // Prevent zoom
-      document.addEventListener('wheel', (e) => {
-        if (e.ctrlKey) e.preventDefault();
-      }, { passive: false });
-      
-      // Lock document dimensions
-      Object.defineProperty(document.documentElement, 'clientWidth', { value: 1366, writable: false });
-      Object.defineProperty(document.documentElement, 'clientHeight', { value: 768, writable: false });
-    });
+    page = await context.newPage();
+    homePageObj = new homePage(page);
     
     // Initial navigation to homepage
     log(SYMBOLS.HOME, 'Opening Browser - Navigating to Gillette Germany Homepage');
     await homePageObj.navigate();
     
-    // Re-lock viewport after navigation (ensures it stays locked)
-    await page.setViewportSize({ width: 1366, height: 768 });
+    // Log actual viewport size for verification
+    const viewportSize = await page.evaluate(() => ({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      outerWidth: window.outerWidth,
+      outerHeight: window.outerHeight,
+      screenWidth: window.screen.width,
+      screenHeight: window.screen.height,
+      availWidth: window.screen.availWidth,
+      availHeight: window.screen.availHeight
+    }));
+    log(SYMBOLS.INFO, `Window size: ${viewportSize.outerWidth}x${viewportSize.outerHeight}, Viewport: ${viewportSize.width}x${viewportSize.height}, Screen: ${viewportSize.screenWidth}x${viewportSize.screenHeight} (Available: ${viewportSize.availWidth}x${viewportSize.availHeight})`);
     
     // Accept cookies ONCE with multiple retries - this will persist for entire test session
     log(SYMBOLS.INFO, 'Accepting cookies for the session...');
