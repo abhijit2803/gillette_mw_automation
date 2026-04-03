@@ -1,0 +1,247 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - link "Gillette Logo" [ref=e8] [cursor=pointer]:
+          - /url: /en-in
+          - img "Gillette Logo" [ref=e9]
+        - link "Gillette Labs" [ref=e11] [cursor=pointer]:
+          - /url: /en-in/gillettelabs
+          - img "Gillette Labs" [ref=e12]
+      - generic [ref=e13]:
+        - link "Gillette logotipo" [ref=e15] [cursor=pointer]:
+          - /url: /en-in
+          - img [ref=e16]
+        - navigation [ref=e24]:
+          - generic [ref=e25]:
+            - button "Learn" [ref=e27] [cursor=pointer]:
+              - generic [ref=e28]: Learn
+            - button "Products" [ref=e30] [cursor=pointer]:
+              - generic [ref=e31]: Products
+            - button "About Gillette" [ref=e33] [cursor=pointer]:
+              - generic [ref=e34]: About Gillette
+        - generic [ref=e37]:
+          - link "Mark as fav" [ref=e40] [cursor=pointer]:
+            - /url: /en-in/fav-page
+            - img [ref=e41]
+            - generic [ref=e44]: "1"
+          - button "Search here" [ref=e45] [cursor=pointer]:
+            - img [ref=e46]
+    - main [ref=e48]:
+      - button "Cookie Consent" [ref=e49]
+      - generic [ref=e50]:
+        - generic [ref=e52]:
+          - img "BUILT STRONGER TO LAST LONGER" [ref=e60]
+          - generic [ref=e62]:
+            - heading "Built stronger to last longer" [level=1] [ref=e63]
+            - link "LEARN MORE" [ref=e64] [cursor=pointer]:
+              - /url: /en-in/products/mach3-razors
+              - generic [ref=e65]: LEARN MORE
+        - generic [ref=e66]:
+          - generic [ref=e68]:
+            - generic [ref=e69]:
+              - heading "Everything you need" [level=2] [ref=e70]
+              - generic [ref=e71]: We have the tools to help you look and feel your best
+              - link "EXPLORE" [ref=e72] [cursor=pointer]:
+                - /url: /en-in/products
+                - generic [ref=e73]: EXPLORE
+            - img "Everything you need" [ref=e79]
+          - generic [ref=e81]:
+            - generic [ref=e82]:
+              - img "Guard3 icon" [ref=e86]
+              - heading "A smooth shave in just one go" [level=2] [ref=e87]
+              - generic [ref=e88]: Save time and trouble with the razor that doesn’t make you shave twice.
+              - link "EXPLORE" [ref=e89] [cursor=pointer]:
+                - /url: /en-in/products/guard3
+                - generic [ref=e90]: EXPLORE
+            - img "Guard3" [ref=e93]
+        - generic [ref=e96]:
+          - generic [ref=e97]: Learn Something New
+          - generic [ref=e99]:
+            - generic [ref=e101]:
+              - link "Men Beard Styling tips Styling" [ref=e105] [cursor=pointer]:
+                - /url: /en-in/tips-for-shaving/styling
+                - img "Men Beard Styling tips" [ref=e108]
+                - heading "Styling" [level=3] [ref=e110]
+              - link "Facial Hair styling for men Facial Hair" [ref=e114] [cursor=pointer]:
+                - /url: /en-in/tips-for-shaving/shaving-tips
+                - img "Facial Hair styling for men" [ref=e117]
+                - heading "Facial Hair" [level=3] [ref=e119]
+              - link "Body Shaving and Trimming Body Shaving & Trimming" [ref=e123] [cursor=pointer]:
+                - /url: /en-in/tips-for-shaving/body-shave-and-trim
+                - img "Body Shaving and Trimming" [ref=e126]
+                - heading "Body Shaving & Trimming" [level=3] [ref=e128]
+            - button "Next Slide" [ref=e129] [cursor=pointer]
+        - generic [ref=e133]:
+          - generic [ref=e134]: Our Products
+          - generic [ref=e136]:
+            - generic [ref=e138]:
+              - link "MACH3 MACH3" [ref=e142] [cursor=pointer]:
+                - /url: /en-in/products/mach3-razors
+                - img "MACH3" [ref=e145]
+                - heading "MACH3" [level=3] [ref=e147]
+              - link "Guard3 Guard3" [ref=e151] [cursor=pointer]:
+                - /url: /en-in/products/guard3
+                - img "Guard3" [ref=e154]
+                - heading "Guard3" [level=3] [ref=e156]
+              - link "Fusion Fusion5" [ref=e160] [cursor=pointer]:
+                - /url: /en-in/products/fusion-razors
+                - img "Fusion" [ref=e163]
+                - heading "Fusion5" [level=3] [ref=e165]
+            - button "Next Slide" [ref=e166] [cursor=pointer]
+        - generic [ref=e169]:
+          - generic [ref=e170]: Our Social Commitments
+          - generic [ref=e174]:
+            - 'link "Barber Suraksha Programme Standing in solidarity with the barber community during COVID-19: ‘Barber Suraksha Programme’" [ref=e178] [cursor=pointer]':
+              - /url: /en-in/about-gillette/social-sustainability/barber-suraksha-programme
+              - img "Barber Suraksha Programme" [ref=e181]
+              - 'heading "Standing in solidarity with the barber community during COVID-19: ‘Barber Suraksha Programme’" [level=3] [ref=e183]'
+            - 'link "Our Social Commitments Two young Girls Shave Stereotypes & Groom the Next Generation: #BarbershopGirls" [ref=e187] [cursor=pointer]':
+              - /url: /en-in/about-gillette/social-sustainability/barber-shop-girls
+              - img "Our Social Commitments" [ref=e190]
+              - 'heading "Two young Girls Shave Stereotypes & Groom the Next Generation: #BarbershopGirls" [level=3] [ref=e192]'
+            - 'link "Our Social Commitments Gillette says, it is okay for Men to Cry, Shaving yet another Stereotype through new #ManEnough film" [ref=e196] [cursor=pointer]':
+              - /url: /en-in/about-gillette/social-sustainability/man-enough
+              - img "Our Social Commitments" [ref=e199]
+              - 'heading "Gillette says, it is okay for Men to Cry, Shaving yet another Stereotype through new #ManEnough film" [level=3] [ref=e201]'
+        - generic [ref=e206]:
+          - heading "Gillette supports men to look, feel and be their best, every day" [level=2] [ref=e207]
+          - generic [ref=e208]: We believe that what a man presents to the world, how he looks, feels and acts, has a direct impact on the world. That is the reason why we support men who always seek to give their best, which is why we are committed to contributing from our place to help all men show their best version.
+          - link "READ OUR STORY" [ref=e209] [cursor=pointer]:
+            - /url: /en-in/about-gillette
+            - generic [ref=e210]: READ OUR STORY
+    - contentinfo [ref=e211]:
+      - separator [ref=e212]
+      - generic [ref=e214]:
+        - generic [ref=e215]:
+          - list [ref=e217]:
+            - listitem [ref=e218]: Learn
+            - listitem [ref=e219]:
+              - link "Styling" [ref=e220] [cursor=pointer]:
+                - /url: /en-in/tips-for-shaving/styling
+            - listitem [ref=e221]:
+              - link "Shaving Tips" [ref=e222] [cursor=pointer]:
+                - /url: /en-in/tips-for-shaving/shaving-tips
+            - listitem [ref=e223]:
+              - link "Body Shaving & Trimming" [ref=e224] [cursor=pointer]:
+                - /url: /en-in/tips-for-shaving/body-shave-and-trim
+            - listitem [ref=e225]:
+              - link "Skin Care" [ref=e226] [cursor=pointer]:
+                - /url: /en-in/tips-for-shaving/skin-care
+            - listitem [ref=e227]:
+              - link "Learn All" [ref=e228] [cursor=pointer]:
+                - /url: /en-in/tips-for-shaving
+          - list [ref=e230]:
+            - listitem [ref=e231]: Products By Brand
+            - listitem [ref=e232]:
+              - link "GilletteLabs" [ref=e233] [cursor=pointer]:
+                - /url: /en-in/gillettelabs
+            - listitem [ref=e234]:
+              - link "SkinGuard Sensitive" [ref=e235] [cursor=pointer]:
+                - /url: /en-in/products/skinguard-sensitive
+            - listitem [ref=e236]:
+              - link "Fusion5" [ref=e237] [cursor=pointer]:
+                - /url: /en-in/products/fusion-razors
+            - listitem [ref=e238]:
+              - link "MACH3" [ref=e239] [cursor=pointer]:
+                - /url: /en-in/products/mach3-razors
+            - listitem [ref=e240]:
+              - link "Disposable Razor" [ref=e241] [cursor=pointer]:
+                - /url: /en-in/products/disposable-razors
+            - listitem [ref=e242]:
+              - link "Guard3" [ref=e243] [cursor=pointer]:
+                - /url: /en-in/products/guard3
+            - listitem [ref=e244]:
+              - link "Styler" [ref=e245] [cursor=pointer]:
+                - /url: /en-in/products/trimmers/3-in-1-styler
+          - list [ref=e247]:
+            - listitem [ref=e248]: Products By Type
+            - listitem [ref=e249]:
+              - link "Razors" [ref=e250] [cursor=pointer]:
+                - /url: /en-in/products/razors
+            - listitem [ref=e251]:
+              - link "Razor Blades" [ref=e252] [cursor=pointer]:
+                - /url: /en-in/products/razor-blades
+            - listitem [ref=e253]:
+              - link "Styler" [ref=e254] [cursor=pointer]:
+                - /url: /en-in/products/trimmers
+            - listitem [ref=e255]:
+              - link "Shaving Gel, Shaving Cream & After Shave" [ref=e256] [cursor=pointer]:
+                - /url: /en-in/products/shaving-gel-cream-and-aftershave
+            - listitem [ref=e257]:
+              - link "All Products" [ref=e258] [cursor=pointer]:
+                - /url: /en-in/products
+          - list [ref=e260]:
+            - listitem [ref=e261]: About Gillette
+            - listitem [ref=e262]:
+              - link "Our Story" [ref=e263] [cursor=pointer]:
+                - /url: /en-in/about-gillette
+            - listitem [ref=e264]:
+              - link "Social Sustainability" [ref=e265] [cursor=pointer]:
+                - /url: /en-in/about-gillette/social-sustainability
+            - listitem [ref=e266]:
+              - link "COVID-19 Response" [ref=e267] [cursor=pointer]:
+                - /url: /en-in/covid19
+            - listitem [ref=e268]:
+              - link "Safety" [ref=e269] [cursor=pointer]:
+                - /url: /en-in/about-gillette/product-safety
+            - listitem [ref=e270]:
+              - link "Ingredient Glossary" [ref=e271] [cursor=pointer]:
+                - /url: /en-in/about-gillette/ingredient-glossary
+            - listitem [ref=e272]:
+              - link "FAQ" [ref=e273] [cursor=pointer]:
+                - /url: /en-in/faq
+            - listitem [ref=e274]:
+              - link "Revised GST Declaration" [ref=e275] [cursor=pointer]:
+                - /url: /en-in/about-gillette/updated-gst-pricing
+        - generic [ref=e277]:
+          - generic [ref=e278]:
+            - generic [ref=e279]:
+              - link "Gillette Logo" [ref=e280] [cursor=pointer]:
+                - /url: /en-in
+                - img "Gillette Logo" [ref=e281]
+              - link "Gillette Labs" [ref=e282] [cursor=pointer]:
+                - /url: /en-in/gillettelabs
+                - img "Gillette Labs" [ref=e283]
+            - list [ref=e285]:
+              - listitem [ref=e286]:
+                - link "Facebook" [ref=e287] [cursor=pointer]:
+                  - /url: https://www.facebook.com/GilletteIndia
+                  - img "Facebook" [ref=e288]
+              - listitem [ref=e289]:
+                - link "YouTube" [ref=e290] [cursor=pointer]:
+                  - /url: https://www.youtube.com/user/gilletteindia
+                  - img "YouTube" [ref=e291]
+              - listitem [ref=e292]:
+                - link "Instagram" [ref=e293] [cursor=pointer]:
+                  - /url: https://www.instagram.com/gilletteindia/?hl=en
+                  - img "Instagram" [ref=e294]
+            - link "India Flag India" [ref=e296] [cursor=pointer]:
+              - /url: /en-in/country-selector
+              - img "India Flag" [ref=e297]
+              - generic [ref=e298]: India
+          - separator [ref=e299]
+          - separator [ref=e300]
+          - generic [ref=e301]:
+            - generic [ref=e302]: © 2026 Procter & Gamble
+            - generic [ref=e303]:
+              - link "Terms and Conditions" [ref=e304] [cursor=pointer]:
+                - /url: https://termsandconditions.pg.com/en-in/#use
+              - button "Privacy" [ref=e305] [cursor=pointer]
+              - link "Your Privacy Choices" [ref=e306] [cursor=pointer]:
+                - /url: https://preferencecenter.pg.com/en-in/
+                - text: Your Privacy Choices
+                - img "adchoice" [ref=e307]
+              - link "Battery Usage Information" [ref=e308] [cursor=pointer]:
+                - /url: /en-in/battery-usage
+              - link "Contact Us" [ref=e309] [cursor=pointer]:
+                - /url: /en-in/contact-us
+              - link "Sitemap" [ref=e310] [cursor=pointer]:
+                - /url: /en-in/sitemap
+              - link "Legal" [ref=e311] [cursor=pointer]:
+                - /url: /en-in/terms-and-conditions
+              - link "AdChoices" [ref=e312] [cursor=pointer]:
+                - /url: https://privacypolicy.pg.com/en-IN/#iba
+                - text: AdChoices
+                - img "adchoice" [ref=e313]
+  - alert [ref=e314]

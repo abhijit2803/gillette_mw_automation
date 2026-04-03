@@ -11,6 +11,7 @@ import { helperBase } from '../pages/helperBase.js';
 import { articleListingPage } from '../pages/articleListingPage.js';
 import { articleDetailsPage } from '../pages/ArticleDetailsPage.js';
 import { productDetailsPage } from '../pages/productDetailsPage.js';
+import { productListingPage } from '../pages/productListingPage.js';
 
 /**
  * Page Manager - Helper class to create and initialize all page objects
@@ -24,6 +25,7 @@ export class pageManager {
     this.articleListingPage = new articleListingPage(this.page);
     this.articleDetailsPage = new articleDetailsPage(this.page);
     this.productDetailsPage = new productDetailsPage(this.page);
+    this.productListingPage = new productListingPage(this.page);
   }
 
   /**
@@ -56,6 +58,14 @@ export class pageManager {
    */
   onProductDetailsPage() {
     return this.productDetailsPage;
+  }
+
+  /**
+   * Get ProductListingPage instance (India PLP)
+   * @returns {productListingPage}
+   */
+  onProductListingPage() {
+    return this.productListingPage;
   }
 
 }

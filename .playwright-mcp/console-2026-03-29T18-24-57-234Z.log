@@ -1,0 +1,16 @@
+[    2097ms] Error: Minified React error #418; visit https://reactjs.org/docs/error-decoder.html?invariant=418 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at lg (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:50283)
+    at i (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:124897)
+    at oD (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:102885)
+    at oR (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:102755)
+    at oS (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:97828)
+    at E (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:1491)
+    at MessagePort.L (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:2012)
+[    2100ms] Error: Minified React error #423; visit https://reactjs.org/docs/error-decoder.html?invariant=423 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at i (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:124556)
+    at oD (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:102885)
+    at oR (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:102755)
+    at ox (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:99526)
+    at oS (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:98081)
+    at E (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:1491)
+    at MessagePort.L (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:2012)

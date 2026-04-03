@@ -1,0 +1,475 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - link "Gillette Logo" [ref=e8] [cursor=pointer]:
+          - /url: /en-in
+          - img "Gillette Logo" [ref=e9]
+        - link "Gillette Labs" [ref=e11] [cursor=pointer]:
+          - /url: /en-in/gillettelabs
+          - img "Gillette Labs" [ref=e12]
+      - generic [ref=e13]:
+        - link "Gillette logotipo" [ref=e15] [cursor=pointer]:
+          - /url: /en-in
+          - img [ref=e16]
+        - navigation [ref=e24]:
+          - generic [ref=e25]:
+            - button "Learn" [ref=e27] [cursor=pointer]:
+              - generic [ref=e28]: Learn
+            - button "Products" [ref=e30] [cursor=pointer]:
+              - generic [ref=e31]: Products
+            - button "About Gillette" [ref=e33] [cursor=pointer]:
+              - generic [ref=e34]: About Gillette
+        - generic [ref=e37]:
+          - link "Mark as fav" [ref=e40] [cursor=pointer]:
+            - /url: /en-in/fav-page
+            - img [ref=e41]
+            - generic [ref=e44]: "1"
+          - button "Search here" [ref=e45] [cursor=pointer]:
+            - img [ref=e46]
+    - main [ref=e48]:
+      - button "Cookie Consent" [ref=e49]
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - img "All Products" [ref=e58]
+          - generic [ref=e60]:
+            - heading "Men's Shaving and Body Care Products" [level=1] [ref=e61]
+            - paragraph [ref=e62]: Explore Gillette’s portfolio of razors, blades, disposable razors, and personal grooming products.
+        - generic [ref=e63]:
+          - generic [ref=e64]:
+            - button "All Products ▼" [ref=e67] [cursor=pointer]:
+              - heading "All Products ▼" [level=2] [ref=e68]
+            - button "Filter" [ref=e70] [cursor=pointer]:
+              - generic [ref=e71]: Filter
+              - img [ref=e73]
+            - generic [ref=e89]:
+              - button "ALL" [disabled] [ref=e90] [cursor=pointer]
+              - button "RAZORS" [ref=e91] [cursor=pointer]
+              - button "BLADES" [ref=e92] [cursor=pointer]
+              - button "STYLER" [ref=e93] [cursor=pointer]
+              - button "SHAVING GEL, SHAVING CREAM AND AFTER SHAVE" [ref=e94] [cursor=pointer]
+          - generic [ref=e97]:
+            - generic [ref=e100]:
+              - link "GilletteLabs Razor with FlexDisc Technology" [ref=e101] [cursor=pointer]:
+                - /url: /en-in/products/razors/gillettelabs-razor-flexdisc-technology
+              - generic [ref=e105]:
+                - link "GilletteLabs Razor with FlexDisc Technology" [ref=e106] [cursor=pointer]:
+                  - /url: /en-in/products/razors/gillettelabs-razor-flexdisc-technology
+                  - heading "GilletteLabs Razor with FlexDisc Technology" [level=3] [ref=e107]
+                - generic [ref=e108]:
+                  - img [ref=e109]
+                  - generic [ref=e112]: "9"
+                - generic [ref=e113]:
+                  - link "Learn more" [ref=e114] [cursor=pointer]:
+                    - /url: /en-in/products/razors/gillettelabs-razor-flexdisc-technology
+                  - generic [ref=e116]:
+                    - generic [ref=e117]: BUY NOW
+                    - generic [ref=e118]:
+                      - img [ref=e119]
+                      - img [ref=e121]
+                      - img [ref=e123]
+              - button "fav-button" [ref=e125] [cursor=pointer]:
+                - img [ref=e126]
+            - generic [ref=e130]:
+              - link "GilletteLabs Razor Blades" [ref=e131] [cursor=pointer]:
+                - /url: /en-in/products/razor-blades/gillettelabs-razor-blades
+              - generic [ref=e135]:
+                - link "GilletteLabs Razor Blades" [ref=e136] [cursor=pointer]:
+                  - /url: /en-in/products/razor-blades/gillettelabs-razor-blades
+                  - heading "GilletteLabs Razor Blades" [level=3] [ref=e137]
+                - generic [ref=e138]:
+                  - img [ref=e139]
+                  - generic [ref=e142]: "3"
+                - generic [ref=e143]:
+                  - link "Learn more" [ref=e144] [cursor=pointer]:
+                    - /url: /en-in/products/razor-blades/gillettelabs-razor-blades
+                  - generic [ref=e146]:
+                    - generic [ref=e147]: BUY NOW
+                    - generic [ref=e148]:
+                      - img [ref=e149]
+                      - img [ref=e151]
+                      - img [ref=e153]
+              - button "fav-button" [ref=e155] [cursor=pointer]:
+                - img [ref=e156]
+            - generic [ref=e160]:
+              - link "Gillette Guard Shaving Razor" [ref=e161] [cursor=pointer]:
+                - /url: /en-in/products/razors/guard-razor
+              - generic [ref=e165]:
+                - link "Gillette Guard® Shaving Razor" [ref=e166] [cursor=pointer]:
+                  - /url: /en-in/products/razors/guard-razor
+                  - heading "Gillette Guard® Shaving Razor" [level=3] [ref=e167]:
+                    - text: Gillette Guard
+                    - superscript [ref=e168]: ®
+                    - text: Shaving Razor
+                - generic [ref=e169]:
+                  - img [ref=e170]
+                  - generic [ref=e173]: "33"
+                - generic [ref=e174]:
+                  - link "Learn more" [ref=e175] [cursor=pointer]:
+                    - /url: /en-in/products/razors/guard-razor
+                  - generic [ref=e177]:
+                    - generic [ref=e178]: BUY NOW
+                    - generic [ref=e179]:
+                      - img [ref=e180]
+                      - img [ref=e182]
+                      - img [ref=e184]
+              - button "fav-button" [ref=e186] [cursor=pointer]:
+                - img [ref=e187]
+            - generic [ref=e191]:
+              - link "Gillette Body Razor" [ref=e192] [cursor=pointer]:
+                - /url: /en-in/products/razors/body-razors
+              - generic [ref=e196]:
+                - link "Gillette Body™ Razor" [ref=e197] [cursor=pointer]:
+                  - /url: /en-in/products/razors/body-razors
+                  - heading "Gillette Body™ Razor" [level=3] [ref=e198]:
+                    - text: Gillette Body
+                    - superscript [ref=e199]: ™
+                    - text: Razor
+                - generic [ref=e200]:
+                  - img [ref=e201]
+                  - generic [ref=e204]: "3"
+                - generic [ref=e205]:
+                  - link "Learn more" [ref=e206] [cursor=pointer]:
+                    - /url: /en-in/products/razors/body-razors
+                  - generic [ref=e208]:
+                    - generic [ref=e209]: BUY NOW
+                    - generic [ref=e210]:
+                      - img [ref=e211]
+                      - img [ref=e213]
+                      - img [ref=e215]
+              - button "fav-button" [ref=e217] [cursor=pointer]:
+                - img [ref=e218]
+            - heading "SELECT YOUR CONCERN" [level=2] [ref=e220]
+            - generic [ref=e221]:
+              - button "Close Shave" [ref=e222] [cursor=pointer]
+              - button "Beard Styling" [ref=e223] [cursor=pointer]
+              - button "Sensitive Skin, Razor Burns & Bumps" [ref=e224] [cursor=pointer]
+              - button "Ingrown Hair Prevention" [ref=e225] [cursor=pointer]
+              - button "Shaving Tricky Areas" [ref=e226] [cursor=pointer]
+            - generic [ref=e229]:
+              - link "7 O'Clock Super Platinum Blades" [ref=e230] [cursor=pointer]:
+                - /url: /en-in/products/razor-blades/7-o-clock-super-platinum-blades
+              - generic [ref=e234]:
+                - link "7 O'Clock Super Platinum Blades" [ref=e235] [cursor=pointer]:
+                  - /url: /en-in/products/razor-blades/7-o-clock-super-platinum-blades
+                  - heading "7 O'Clock Super Platinum Blades" [level=3] [ref=e236]
+                - generic [ref=e237]:
+                  - img [ref=e238]
+                  - generic [ref=e241]: "10"
+                - generic [ref=e242]:
+                  - link "Learn more" [ref=e243] [cursor=pointer]:
+                    - /url: /en-in/products/razor-blades/7-o-clock-super-platinum-blades
+                  - generic [ref=e245]:
+                    - generic [ref=e246]: BUY NOW
+                    - generic [ref=e247]:
+                      - img [ref=e248]
+                      - img [ref=e250]
+                      - img [ref=e252]
+              - button "fav-button" [ref=e254] [cursor=pointer]:
+                - img [ref=e255]
+            - generic [ref=e259]:
+              - link "Wilkinson Razor Blades" [ref=e260] [cursor=pointer]:
+                - /url: /en-in/products/razor-blades/wilkinson-sword-blades
+              - generic [ref=e264]:
+                - link "Wilkinson® Razor Blades" [ref=e265] [cursor=pointer]:
+                  - /url: /en-in/products/razor-blades/wilkinson-sword-blades
+                  - heading "Wilkinson® Razor Blades" [level=3] [ref=e266]:
+                    - text: Wilkinson
+                    - superscript [ref=e267]: ®
+                    - text: Razor Blades
+                - generic [ref=e268]:
+                  - img [ref=e269]
+                  - generic [ref=e272]: "7"
+                - generic [ref=e273]:
+                  - link "Learn more" [ref=e274] [cursor=pointer]:
+                    - /url: /en-in/products/razor-blades/wilkinson-sword-blades
+                  - generic [ref=e276]:
+                    - generic [ref=e277]: BUY NOW
+                    - generic [ref=e278]:
+                      - img [ref=e279]
+                      - img [ref=e281]
+                      - img [ref=e283]
+              - button "fav-button" [ref=e285] [cursor=pointer]:
+                - img [ref=e286]
+            - generic [ref=e290]:
+              - link "Gillette Vector Razor" [ref=e291] [cursor=pointer]:
+                - /url: /en-in/products/razors/gillette-vector-razor
+              - generic [ref=e295]:
+                - link "Gillette Vector® Razor" [ref=e296] [cursor=pointer]:
+                  - /url: /en-in/products/razors/gillette-vector-razor
+                  - heading "Gillette Vector® Razor" [level=3] [ref=e297]:
+                    - text: Gillette Vector
+                    - superscript [ref=e298]: ®
+                    - text: Razor
+                - generic [ref=e299]:
+                  - img [ref=e300]
+                  - generic [ref=e303]: "13"
+                - generic [ref=e304]:
+                  - link "Learn more" [ref=e305] [cursor=pointer]:
+                    - /url: /en-in/products/razors/gillette-vector-razor
+                  - generic [ref=e307]:
+                    - generic [ref=e308]: BUY NOW
+                    - generic [ref=e309]:
+                      - img [ref=e310]
+                      - img [ref=e312]
+                      - img [ref=e314]
+              - button "fav-button" [ref=e316] [cursor=pointer]:
+                - img [ref=e317]
+            - generic [ref=e321]:
+              - link "Gillette Presto Disposable Razor" [ref=e322] [cursor=pointer]:
+                - /url: /en-in/products/razors/gillette-presto-disposable-razor
+              - generic [ref=e326]:
+                - link "Gillette Presto® Disposable Razor" [ref=e327] [cursor=pointer]:
+                  - /url: /en-in/products/razors/gillette-presto-disposable-razor
+                  - heading "Gillette Presto® Disposable Razor" [level=3] [ref=e328]:
+                    - text: Gillette Presto
+                    - superscript [ref=e329]: ®
+                    - text: Disposable Razor
+                - generic [ref=e330]:
+                  - img [ref=e331]
+                  - generic [ref=e334]: "8"
+                - generic [ref=e335]:
+                  - link "Learn more" [ref=e336] [cursor=pointer]:
+                    - /url: /en-in/products/razors/gillette-presto-disposable-razor
+                  - generic [ref=e338]:
+                    - generic [ref=e339]: BUY NOW
+                    - generic [ref=e340]:
+                      - img [ref=e341]
+                      - img [ref=e343]
+                      - img [ref=e345]
+              - button "fav-button" [ref=e347] [cursor=pointer]:
+                - img [ref=e348]
+            - generic [ref=e352]:
+              - link "Gillette Vector3 Razor" [ref=e353] [cursor=pointer]:
+                - /url: /en-in/products/razors/gillette-vector3-razor
+              - generic [ref=e357]:
+                - link "Gillette Vector3® Razor" [ref=e358] [cursor=pointer]:
+                  - /url: /en-in/products/razors/gillette-vector3-razor
+                  - heading "Gillette Vector3® Razor" [level=3] [ref=e359]:
+                    - text: Gillette Vector3
+                    - superscript [ref=e360]: ®
+                    - text: Razor
+                - generic [ref=e361]:
+                  - img [ref=e362]
+                  - generic [ref=e365]: "7"
+                - generic [ref=e366]:
+                  - link "Learn more" [ref=e367] [cursor=pointer]:
+                    - /url: /en-in/products/razors/gillette-vector3-razor
+                  - generic [ref=e369]:
+                    - generic [ref=e370]: BUY NOW
+                    - generic [ref=e371]:
+                      - img [ref=e372]
+                      - img [ref=e374]
+                      - img [ref=e376]
+              - button "fav-button" [ref=e378] [cursor=pointer]:
+                - img [ref=e379]
+            - generic [ref=e383]:
+              - link "Gillette Guard 3 Shaving Razor" [ref=e384] [cursor=pointer]:
+                - /url: /en-in/products/razors/gillette-guard3-razor
+              - generic [ref=e388]:
+                - link "Gillette Guard 3 Shaving Razor" [ref=e389] [cursor=pointer]:
+                  - /url: /en-in/products/razors/gillette-guard3-razor
+                  - heading "Gillette Guard 3 Shaving Razor" [level=3] [ref=e390]
+                - generic [ref=e391]:
+                  - img [ref=e392]
+                  - generic [ref=e395]: "7"
+                - generic [ref=e396]:
+                  - link "Learn more" [ref=e397] [cursor=pointer]:
+                    - /url: /en-in/products/razors/gillette-guard3-razor
+                  - generic [ref=e399]:
+                    - generic [ref=e400]: BUY NOW
+                    - generic [ref=e401]:
+                      - img [ref=e402]
+                      - img [ref=e404]
+                      - img [ref=e406]
+              - button "fav-button" [ref=e408] [cursor=pointer]:
+                - img [ref=e409]
+            - generic [ref=e413]:
+              - link "Gillette Presto 3 Disposable Razor" [ref=e414] [cursor=pointer]:
+                - /url: /en-in/products/razors/gillette-presto3-disposable-razor
+              - generic [ref=e418]:
+                - link "Gillette Presto 3 Disposable Razor" [ref=e419] [cursor=pointer]:
+                  - /url: /en-in/products/razors/gillette-presto3-disposable-razor
+                  - heading "Gillette Presto 3 Disposable Razor" [level=3] [ref=e420]
+                - generic [ref=e421]:
+                  - img [ref=e422]
+                  - generic [ref=e425]: "6"
+                - generic [ref=e426]:
+                  - link "Learn more" [ref=e427] [cursor=pointer]:
+                    - /url: /en-in/products/razors/gillette-presto3-disposable-razor
+                  - generic [ref=e429]:
+                    - generic [ref=e430]: BUY NOW
+                    - generic [ref=e431]:
+                      - img [ref=e432]
+                      - img [ref=e434]
+                      - img [ref=e436]
+              - button "fav-button" [ref=e438] [cursor=pointer]:
+                - img [ref=e439]
+            - generic [ref=e443]:
+              - link "Gillette MACH3 Start Razor" [ref=e444] [cursor=pointer]:
+                - /url: /en-in/products/razors/mach3-start-razor
+              - generic [ref=e448]:
+                - link "Gillette MACH3® Start Razor" [ref=e449] [cursor=pointer]:
+                  - /url: /en-in/products/razors/mach3-start-razor
+                  - heading "Gillette MACH3® Start Razor" [level=3] [ref=e450]:
+                    - text: Gillette MACH3
+                    - superscript [ref=e451]: ®
+                    - text: Start Razor
+                - generic [ref=e452]:
+                  - img [ref=e453]
+                  - generic [ref=e456]: "5"
+                - generic [ref=e457]:
+                  - link "Learn more" [ref=e458] [cursor=pointer]:
+                    - /url: /en-in/products/razors/mach3-start-razor
+                  - generic [ref=e460]:
+                    - generic [ref=e461]: BUY NOW
+                    - generic [ref=e462]:
+                      - img [ref=e463]
+                      - img [ref=e465]
+                      - img [ref=e467]
+              - button "fav-button" [ref=e469] [cursor=pointer]:
+                - img [ref=e470]
+    - contentinfo [ref=e472]:
+      - list [ref=e474]:
+        - listitem [ref=e475]:
+          - link "Home" [ref=e476] [cursor=pointer]:
+            - /url: /en-in
+            - img [ref=e477]
+          - img [ref=e480]
+        - listitem [ref=e482]:
+          - generic "Shaving Products"
+      - separator [ref=e483]
+      - generic [ref=e485]:
+        - generic [ref=e486]:
+          - list [ref=e488]:
+            - listitem [ref=e489]: Learn
+            - listitem [ref=e490]:
+              - link "Styling" [ref=e491] [cursor=pointer]:
+                - /url: /en-in/tips-for-shaving/styling
+            - listitem [ref=e492]:
+              - link "Shaving Tips" [ref=e493] [cursor=pointer]:
+                - /url: /en-in/tips-for-shaving/shaving-tips
+            - listitem [ref=e494]:
+              - link "Body Shaving & Trimming" [ref=e495] [cursor=pointer]:
+                - /url: /en-in/tips-for-shaving/body-shave-and-trim
+            - listitem [ref=e496]:
+              - link "Skin Care" [ref=e497] [cursor=pointer]:
+                - /url: /en-in/tips-for-shaving/skin-care
+            - listitem [ref=e498]:
+              - link "Learn All" [ref=e499] [cursor=pointer]:
+                - /url: /en-in/tips-for-shaving
+          - list [ref=e501]:
+            - listitem [ref=e502]: Products By Brand
+            - listitem [ref=e503]:
+              - link "GilletteLabs" [ref=e504] [cursor=pointer]:
+                - /url: /en-in/gillettelabs
+            - listitem [ref=e505]:
+              - link "SkinGuard Sensitive" [ref=e506] [cursor=pointer]:
+                - /url: /en-in/products/skinguard-sensitive
+            - listitem [ref=e507]:
+              - link "Fusion5" [ref=e508] [cursor=pointer]:
+                - /url: /en-in/products/fusion-razors
+            - listitem [ref=e509]:
+              - link "MACH3" [ref=e510] [cursor=pointer]:
+                - /url: /en-in/products/mach3-razors
+            - listitem [ref=e511]:
+              - link "Disposable Razor" [ref=e512] [cursor=pointer]:
+                - /url: /en-in/products/disposable-razors
+            - listitem [ref=e513]:
+              - link "Guard3" [ref=e514] [cursor=pointer]:
+                - /url: /en-in/products/guard3
+            - listitem [ref=e515]:
+              - link "Styler" [ref=e516] [cursor=pointer]:
+                - /url: /en-in/products/trimmers/3-in-1-styler
+          - list [ref=e518]:
+            - listitem [ref=e519]: Products By Type
+            - listitem [ref=e520]:
+              - link "Razors" [ref=e521] [cursor=pointer]:
+                - /url: /en-in/products/razors
+            - listitem [ref=e522]:
+              - link "Razor Blades" [ref=e523] [cursor=pointer]:
+                - /url: /en-in/products/razor-blades
+            - listitem [ref=e524]:
+              - link "Styler" [ref=e525] [cursor=pointer]:
+                - /url: /en-in/products/trimmers
+            - listitem [ref=e526]:
+              - link "Shaving Gel, Shaving Cream & After Shave" [ref=e527] [cursor=pointer]:
+                - /url: /en-in/products/shaving-gel-cream-and-aftershave
+            - listitem [ref=e528]:
+              - link "All Products" [ref=e529] [cursor=pointer]:
+                - /url: /en-in/products
+          - list [ref=e531]:
+            - listitem [ref=e532]: About Gillette
+            - listitem [ref=e533]:
+              - link "Our Story" [ref=e534] [cursor=pointer]:
+                - /url: /en-in/about-gillette
+            - listitem [ref=e535]:
+              - link "Social Sustainability" [ref=e536] [cursor=pointer]:
+                - /url: /en-in/about-gillette/social-sustainability
+            - listitem [ref=e537]:
+              - link "COVID-19 Response" [ref=e538] [cursor=pointer]:
+                - /url: /en-in/covid19
+            - listitem [ref=e539]:
+              - link "Safety" [ref=e540] [cursor=pointer]:
+                - /url: /en-in/about-gillette/product-safety
+            - listitem [ref=e541]:
+              - link "Ingredient Glossary" [ref=e542] [cursor=pointer]:
+                - /url: /en-in/about-gillette/ingredient-glossary
+            - listitem [ref=e543]:
+              - link "FAQ" [ref=e544] [cursor=pointer]:
+                - /url: /en-in/faq
+            - listitem [ref=e545]:
+              - link "Revised GST Declaration" [ref=e546] [cursor=pointer]:
+                - /url: /en-in/about-gillette/updated-gst-pricing
+        - generic [ref=e548]:
+          - generic [ref=e549]:
+            - generic [ref=e550]:
+              - link "Gillette Logo" [ref=e551] [cursor=pointer]:
+                - /url: /en-in
+                - img "Gillette Logo" [ref=e552]
+              - link "Gillette Labs" [ref=e553] [cursor=pointer]:
+                - /url: /en-in/gillettelabs
+                - img "Gillette Labs" [ref=e554]
+            - list [ref=e556]:
+              - listitem [ref=e557]:
+                - link "Facebook" [ref=e558] [cursor=pointer]:
+                  - /url: https://www.facebook.com/GilletteIndia
+                  - img "Facebook" [ref=e559]
+              - listitem [ref=e560]:
+                - link "YouTube" [ref=e561] [cursor=pointer]:
+                  - /url: https://www.youtube.com/user/gilletteindia
+                  - img "YouTube" [ref=e562]
+              - listitem [ref=e563]:
+                - link "Instagram" [ref=e564] [cursor=pointer]:
+                  - /url: https://www.instagram.com/gilletteindia/?hl=en
+                  - img "Instagram" [ref=e565]
+            - link "India Flag India" [ref=e567] [cursor=pointer]:
+              - /url: /en-in/country-selector
+              - img "India Flag" [ref=e568]
+              - generic [ref=e569]: India
+              - img [ref=e570]
+          - separator [ref=e573]
+          - separator [ref=e574]
+          - generic [ref=e575]:
+            - generic [ref=e576]: © 2026 Procter & Gamble
+            - generic [ref=e577]:
+              - link "Terms and Conditions" [ref=e578] [cursor=pointer]:
+                - /url: https://termsandconditions.pg.com/en-in/#use
+              - button "Privacy" [ref=e579] [cursor=pointer]
+              - link "Your Privacy Choices" [ref=e580] [cursor=pointer]:
+                - /url: https://preferencecenter.pg.com/en-in/
+                - text: Your Privacy Choices
+                - img "adchoice" [ref=e581]
+              - link "Battery Usage Information" [ref=e582] [cursor=pointer]:
+                - /url: /en-in/battery-usage
+              - link "Contact Us" [ref=e583] [cursor=pointer]:
+                - /url: /en-in/contact-us
+              - link "Sitemap" [ref=e584] [cursor=pointer]:
+                - /url: /en-in/sitemap
+              - link "Legal" [ref=e585] [cursor=pointer]:
+                - /url: /en-in/terms-and-conditions
+              - link "AdChoices" [ref=e586] [cursor=pointer]:
+                - /url: https://privacypolicy.pg.com/en-IN/#iba
+                - text: AdChoices
+                - img "adchoice" [ref=e587]
+  - alert [ref=e588]

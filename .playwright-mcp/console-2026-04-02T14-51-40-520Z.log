@@ -1,0 +1,85 @@
+[    2559ms] Error: Minified React error #418; visit https://reactjs.org/docs/error-decoder.html?invariant=418 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at lg (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:50283)
+    at i (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:124897)
+    at oD (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:102885)
+    at oR (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:102755)
+    at oS (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:97828)
+    at E (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:1491)
+    at MessagePort.L (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:2012)
+[    2565ms] Error: Minified React error #423; visit https://reactjs.org/docs/error-decoder.html?invariant=423 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
+    at i (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:124556)
+    at oD (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:102885)
+    at oR (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:102755)
+    at ox (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:99526)
+    at oS (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:98081)
+    at E (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:1491)
+    at MessagePort.L (https://www.gillette.co.in/_next/static/chunks/9e9ed20ed48678f9.js:1:2012)
+[    7224ms] [WARNING] The resource https://images.ctfassets.net/7tfi3razjgvb/2oCddN05HpT7zMBdiVqxeZ/f4c36379c1a3f2cfbfe0b66eae301acd/Component_64_____1_2x.png?fm=avif&q=70 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://www.gillette.co.in/en-in/products:0
+[    8700ms] [LOG] Google Analytics Standard Events Library Loaded @ :2
+[    8729ms] [LOG] OneTrust Consent Loaded: 018eebef-a6ee-7946-a5a5-9fd5120ad4f8 @ :0
+[    8729ms] [LOG] empty lang @ :1
+[    8730ms] [LOG] Google Analytics Adjusted Bounce Rate Loaded @ :0
+[   12522ms] [WARNING] The resource https://images.ctfassets.net/7tfi3razjgvb/2oCddN05HpT7zMBdiVqxeZ/f4c36379c1a3f2cfbfe0b66eae301acd/Component_64_____1_2x.png?fm=avif&q=70 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://www.gillette.co.in/en-in/products:0
+[   50245ms] [LOG] Segment Loaded: pgLNcJvNQhHE1FBTmvXCzY3YKPpIWo5y @ :0
+[   50250ms] [LOG] reset= @ :1
+[   50251ms] [LOG] campaing on 1st page  direct @ :1
+[   50264ms] [LOG] Facebook Remarketing Pixel Loaded: 1504681989770708 @ :0
+[   50898ms] [LOG] Could not find media ID in the request response @ :1
+[   50990ms] [LOG] Tapad Loaded @ :0
+[   51255ms] [LOG] In window.addTracing() @ :1
+[   51260ms] [LOG] Faro client initialized. Tracing added. @ :1
+[   51260ms] [LOG] Sampling Rate: 0.7 @ :1
+[   52591ms] [ERROR] The Content-Security-Policy directive 'default-src' contains the keyword 'none' alongside with other source expressions. The keyword 'none' must be the only source expression in the directive value, otherwise it is ignored. @ https://pandg.tapad.com/tag?referrer_url=&page_url=https%3A%2F%2Fwww.gillette.co.in%2Fen-in%2Fproducts&owner=P%26G&bp_id=firstp&ch=%7B%22architecture%22%3A%22x86%22%2C%22bitness%22%3A%2264%22%2C%22brands%22%3A%5B%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22146%22%7D%2C%7B%22brand%22%3A%22Not-A.Brand%22%2C%22version%22%3A%2224%22%7D%2C%7B%22brand%22%3A%22Google%20Chrome%22%2C%22version%22%3A%22146%22%7D%5D%2C%22fullVersionList%22%3A%5B%7B%22brand%22%3A%22Chromium%22%2C%22version%22%3A%22146.0.7680.178%22%7D%2C%7B%22brand%22%3A%22Not-A.Brand%22%2C%22version%22%3A%2224.0.0.0%22%7D%2C%7B%22brand%22%3A%22Google%20Chrome%22%2C%22version%22%3A%22146.0.7680.178%22%7D%5D%2C%22mobile%22%3Afalse%2C%22model%22%3A%22%22%2C%22platform%22%3A%22Windows%22%2C%22platformVersion%22%3A%2219.0.0%22%7D&initiator=js&data=%7B%22event%22%3A%22page_view%22%2C%22gaid%22%3A%22(not%20set)%22%2C%22WMHMDA%22%3A0%2C%22mediaID%22%3A%22%22%2C%22brand%22%3A%22gillette%22%7D:0
+[   56434ms] [WARNING] The resource https://images.ctfassets.net/7tfi3razjgvb/2oCddN05HpT7zMBdiVqxeZ/f4c36379c1a3f2cfbfe0b66eae301acd/Component_64_____1_2x.png?fm=avif&q=70 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://www.gillette.co.in/en-in/products:0
+[ 3852809ms] [LOG] Segment Event: Menu Click @ :67
+[ 3852816ms] [LOG] eAction event_menu_click @ :12
+[ 3852816ms] [LOG] Tapad - sConsumerAction is not found @ :12
+[ 3853815ms] [ERROR] Access to fetch at 'https://grafana-alloy.rum.gcp.pgcloud.com/collect' from origin 'https://www.gillette.co.in' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://www.gillette.co.in/en-in/products:0
+[ 3853817ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://grafana-alloy.rum.gcp.pgcloud.com/collect:0
+[ 3853817ms] [ERROR] Faro
+ @grafana/faro-web-sdk:transport-fetch
+ Failed sending payload to the receiver
+ {meta: Object, events: Array(1)} TypeError: Failed to fetch
+    at https://unpkg.com/@grafana/faro-web-tracing@%5E1.0.0/dist/bundle/faro-web-tracing.iife.js:1:66942
+    at https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:86312
+    at o (https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:1723)
+    at https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:1911
+    at new Promise (<anonymous>)
+    at Object.add (https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:1850)
+    at Nr.<anonymous> (https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:86112)
+    at Generator.next (<anonymous>)
+    at https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:76864
+    at new Promise (<anonymous>) @ https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:0
+[ 3853819ms] [ERROR] Access to fetch at 'https://grafana-alloy.rum.gcp.pgcloud.com/collect' from origin 'https://www.gillette.co.in' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://www.gillette.co.in/en-in/products:0
+[ 3853820ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://grafana-alloy.rum.gcp.pgcloud.com/collect:0
+[ 3853820ms] [ERROR] Faro
+ @grafana/faro-web-sdk:transport-fetch
+ Failed sending payload to the receiver
+ {meta: Object, measurements: Array(1), events: Array(1)} TypeError: Failed to fetch
+    at https://unpkg.com/@grafana/faro-web-tracing@%5E1.0.0/dist/bundle/faro-web-tracing.iife.js:1:66942
+    at https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:86312
+    at o (https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:1723)
+    at https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:1911
+    at new Promise (<anonymous>)
+    at Object.add (https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:1850)
+    at Nr.<anonymous> (https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:86112)
+    at Generator.next (<anonymous>)
+    at https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:76864
+    at new Promise (<anonymous>) @ https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:0
+[ 3854083ms] [ERROR] Access to fetch at 'https://grafana-alloy.rum.gcp.pgcloud.com/collect' from origin 'https://www.gillette.co.in' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ https://www.gillette.co.in/en-in/products:0
+[ 3854083ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://grafana-alloy.rum.gcp.pgcloud.com/collect:0
+[ 3854083ms] [ERROR] Faro
+ @grafana/faro-web-sdk:transport-fetch
+ Failed sending payload to the receiver
+ {meta: Object, events: Array(1)} TypeError: Failed to fetch
+    at https://unpkg.com/@grafana/faro-web-tracing@%5E1.0.0/dist/bundle/faro-web-tracing.iife.js:1:66942
+    at https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:86312
+    at o (https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:1723)
+    at https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:1911
+    at new Promise (<anonymous>)
+    at Object.add (https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:1850)
+    at Nr.<anonymous> (https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:86112)
+    at Generator.next (<anonymous>)
+    at https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:1:76864
+    at new Promise (<anonymous>) @ https://unpkg.com/@grafana/faro-web-sdk@%5E1.0.0/dist/bundle/faro-web-sdk.iife.js:0
+[ 3857094ms] [WARNING] The resource https://images.ctfassets.net/7tfi3razjgvb/2oCddN05HpT7zMBdiVqxeZ/f4c36379c1a3f2cfbfe0b66eae301acd/Component_64_____1_2x.png?fm=avif&q=70 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://www.gillette.co.in/en-in/products:0
